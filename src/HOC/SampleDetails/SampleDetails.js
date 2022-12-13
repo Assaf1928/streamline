@@ -1,5 +1,5 @@
 import './SampleDetails.css';
-import Map from '../../LOC/Map/Map.js'
+import SimpleMap from '../../LOC/Map/MapPOC.js'
 
 function SampleDetails() {
   return (
@@ -27,7 +27,7 @@ function SampleDetails() {
         </div>
       </div>
       </div>
-      <Map/>
+      <SimpleMap/>
       <div className='btn_container'>
       <button className='save_button'>Save</button>
       </div>
