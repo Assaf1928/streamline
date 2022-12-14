@@ -1,6 +1,6 @@
 import './Home.css';
 import { FaPlusCircle  } from 'react-icons/fa';
-import StreamLineLogo from'./images/stream_line.png';
+import StreamLineLogo from '../../images/stream_line_logo';
 
 function Home() {
   return (
