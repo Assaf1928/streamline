@@ -1,6 +1,7 @@
 import './SampleDetails.css';
 import SimpleMap from '../../LOC/Map/MapPOC.js'
 
+
 function SampleDetails() {
   return (
     <div className="App">
@@ -8,7 +9,10 @@ function SampleDetails() {
       <div>Sample Details:</div>
       <select className="spot_select">
         <option>Choose spot</option>
-        <option></option>
+        <option>Winter Stadium</option>
+        <option>Winter Stadium</option>
+        <option>Winter Stadium</option>
+        <option>Winter Stadium</option>
       </select>
       </div>
       <div className='inputs'>
@@ -17,16 +21,17 @@ function SampleDetails() {
         <input placeholder='Sample Id'/>
         </div>
         <div> 
-        <input placeholder='Sample Id'/>
+        <input placeholder='Date' type="date"/>
         </div>
         <div> 
-        <input placeholder='Sample Id'/>
+        <input placeholder='Sample Id' type="time"/>
         </div>
         <div> 
         <input placeholder='Sample Id'/>
         </div>
       </div>
       </div>
+      
       <SimpleMap/>
       <div className='btn_container'>
       <button className='save_button'>Save</button>
@@ -36,8 +41,3 @@ function SampleDetails() {
 }
 
 export default SampleDetails;
-
-
-
-
-
