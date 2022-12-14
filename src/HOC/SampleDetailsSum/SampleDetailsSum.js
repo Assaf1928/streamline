@@ -23,11 +23,11 @@ function SampleDetails() {
         <div className='details_inputs'> 20</div>
       </div>
       <div className='details_name'>Location:
-        <SimpleMap/>
       </div>
-
-
+      <div className='map_container'> <SimpleMap/></div>
       <div className='QR_container'>
+
+        {/* .../Sample/{sampleId} */}
       <QRCodeSVG value="https://reactjs.org/" />
       </div>
 

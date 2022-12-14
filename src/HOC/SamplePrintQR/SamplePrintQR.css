@@ -12,8 +12,12 @@
 }
 .inputs_container{
   display: flex;
-  
-  width: 150px;
+  width: 300px;
   margin: 0 auto;
+  justify-content: space-between;
+  font-weight: 600;
 
+}
+.flex {
+  display: flex;
 }
