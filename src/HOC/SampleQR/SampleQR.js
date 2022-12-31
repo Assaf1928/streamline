@@ -1,3 +1,5 @@
+import React from "react";
+
 import './SampleQR.css';
 import {QRCodeSVG} from 'qrcode.react';
 

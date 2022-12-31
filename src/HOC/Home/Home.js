@@ -1,3 +1,4 @@
+import React from 'react'
 import './Home.css';
 import { FaPlusCircle  } from 'react-icons/fa';
 import StreamLineLogo from '../../images/stream_line.png';

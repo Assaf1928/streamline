@@ -1,3 +1,4 @@
+import React from "react";
 import './SampleDetails.css';
 import SimpleMap from '../../LOC/Map/MapPOC.js'
 

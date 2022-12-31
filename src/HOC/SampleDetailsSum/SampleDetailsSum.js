@@ -1,3 +1,5 @@
+import React from "react";
+
 import './SampleDetailsSum.css';
 import {QRCodeSVG} from 'qrcode.react';
 import SimpleMap from '../../LOC/Map/MapPOC.js'

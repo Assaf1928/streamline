@@ -1,0 +1,19 @@
+.flex_column_samples {
+ display: flex;
+ flex-direction: column;
+}
+.table_header {
+    background-color: gray
+}
+.flex_row_samples {
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto
+}
+.flex_row_samples div {
+    padding: 5px 10px;
+    width: 200px;
+    border: 1px solid #747171;
+    border-radius: 4px;
+    text-align: center;
+}
