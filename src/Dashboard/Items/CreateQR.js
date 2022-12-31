@@ -25,7 +25,7 @@ function CreateQR() {
       mywindow.document.close(); // necessary for IE >= 10
       mywindow.focus(); // necessary for IE >= 10*/
       mywindow.print();
-      mywindow.close();
+      //mywindow.close();
   }
   let string = `http://localhost:3000/create-sample/${x}`
   return (

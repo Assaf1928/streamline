@@ -49,7 +49,7 @@ class CreateSample extends Component {
         temperature: this.state.temperature,
         spotId: this.state.spotId,
         location: this.state.location,
-        time: this.state.time,
+        time: new Date().getTime(),
         tubes: []
     })
   }
