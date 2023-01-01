@@ -16,7 +16,6 @@ class Samples extends Component {
       };
       
     }
-
    async  componentDidMount() {
         const ref =  collection(firestore,"samples");
         let querySnapshot = await getDocs(ref)
