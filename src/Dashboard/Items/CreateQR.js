@@ -27,7 +27,7 @@ function CreateQR() {
       mywindow.print();
       //mywindow.close();
   }
-  let string = `http://localhost:3000/create-sample/${x}`
+  let string = `http://localhost:3000/dashboard/create-sample/${x}`
   return (
     <div className='qr_creation_container'>
       <div id="QR">

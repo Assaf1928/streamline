@@ -50,7 +50,7 @@ class Overview extends Component {
             let bodTubes =   sample.tubes.filter(t=>t.type == BOD)
             bodTubes.forEach(m=> {
               if(m.value) {
-                count += m.value
+                count += parseInt(m.value) 
                 indexCount++;
               }
             })

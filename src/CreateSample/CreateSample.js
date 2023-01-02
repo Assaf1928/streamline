@@ -44,12 +44,14 @@ class CreateSample extends Component {
     const docRef = doc(firestore, "samples",  this.state.dbId)
     await setDoc(docRef,{spotId: this.state.spotId}, {merge: true})
     } else {
+      let date = new Date()
+      date.setDate(date.getDate()+1);
    await addDoc(ref, {
         id: this.state.id,
         temperature: this.state.temperature,
         spotId: this.state.spotId,
         location: this.state.location,
-        time: new Date().getTime(),
+        time: date.getTime(),
         tubes: []
     })
   }

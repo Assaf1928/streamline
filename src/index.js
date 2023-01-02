@@ -27,6 +27,8 @@ root.render(
           <Route  path="qr-creation" element={<CreateQR/>}></Route>
           <Route path="overview" element={<Overview/>}></Route> 
           <Route exact path="samples" element={<Samples/>}></Route>
+          <Route exact path="samples/:id/tubes" element={<Tubes/>} />
+          <Route path="create-sample/:id" element={<CreateSample/>}/>
           </Route>
           <Route exact path='/SampleDetails' element={< SampleDetails />}></Route>
           <Route exact path='/SampleQR' element={< SampleQR />}></Route>
