@@ -3,13 +3,17 @@ import  { Component }  from 'react';
 import { Chart } from "react-google-charts";
 import {firestore} from "../firebase.js"
 import moment from 'moment'
+import { Spots } from '../Consts/Spots.js';
 import {getDocs, collection} from "@firebase/firestore"
 
 class Overview extends Component {
     constructor(props) {
       super(props);
       this.handleChange = this.handleChange.bind(this);
+      this.handleSpotChange = this.handleSpotChange.bind(this);
       this.state = {
+        spotId: 0,
+        tubeFilter: 1,
         data: [
 
           ],
@@ -21,15 +25,23 @@ class Overview extends Component {
       };
     }
   
-    async componentDidMount() {
-
+   async orginaizeData() {
       let newArray = [];
       newArray.push(["Date","Value"])
       const ref =  collection(firestore,"samples");
       let querySnapshot = await getDocs(ref)
       let newSamplesArray = []
       querySnapshot.forEach((doc) => {
-        newSamplesArray.push(doc.data())
+        let shouldPush = false;
+        if(this.state.spotId && this.state.spotId != "0") {
+          let data = doc.data()
+          shouldPush = data.spotId == this.state.spotId
+        } else {
+          shouldPush = true
+        }
+        if(shouldPush) {
+          newSamplesArray.push(doc.data())
+        }
       })
       var startFrom = new Date();
       for(let i = 0; i < 4; i++) {
@@ -46,7 +58,7 @@ class Overview extends Component {
 
           if(sampleDate.getTime() == date.getTime()) {
             if(sample.tubes) {
-            let BOD = 1 
+            let BOD = this.state.tubeFilter
             let bodTubes =   sample.tubes.filter(t=>t.type == BOD)
             bodTubes.forEach(m=> {
               if(m.value) {
@@ -64,6 +76,10 @@ class Overview extends Component {
         
       }
       this.setState({data: newArray})
+    }
+
+    async componentDidMount() {
+        await this.orginaizeData()
 
       // 14 Date 
 
@@ -75,20 +91,40 @@ class Overview extends Component {
     componentWillUnmount() {
       // Clean up listener
     }
-  
-    handleChange() {
+    async handleSpotChange(event) {
+      if(event && event.target && event.target.value) {
+      this.setState({spotId: event.target.value})
+      await this.orginaizeData()
+      }
+    }
+   async handleChange(event) {
+    if(event && event.target && event.target.value) {
+
+      this.setState({tubeFilter: event.target.value})
+      await this.orginaizeData()
+    }
       // Update component state whenever the data source changes
     }
       
     render() {
+
+      let spotSelect = "";
+      if(Spots && Spots.length > 0) {
+        spotSelect =  <select name="spotId" value={this.state.spotId} onChange={(event) =>  this.handleSpotChange(event)}>
+      <option value="0"> None</option>
+         {Spots.map(spot=> {
+          return  <option  key={spot.id} value={spot.id}>{spot.name}</option>
+          })}
+
+        </select>
+}
       return (
         <div>
-         <select>
-          <option value="0">None</option>
+         <select onChange={(e) => this.handleChange(e)}>
           <option value="1">BOD</option>
           <option value="2">COD</option>
          </select>
-          
+         {spotSelect}
           <Chart
         chartType="LineChart"
         width="100%"
