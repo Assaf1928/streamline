@@ -19,6 +19,7 @@ class CreateSample extends Component {
             latitude: 10,
             longitude: 10
             },
+            name:'',
             spotId: 0,
             time: new Date(),
             timeToString: new Date().toISOString().substring(0,10),
@@ -42,7 +43,7 @@ class CreateSample extends Component {
     console.log(this.state.isUpdate && this.state.dbId)
     if(this.state.isUpdate && this.state.dbId) {
     const docRef = doc(firestore, "samples",  this.state.dbId)
-    await setDoc(docRef,{spotId: this.state.spotId}, {merge: true})
+    await setDoc(docRef,{spotId: this.state.spotId, name: this.state.name}, {merge: true})
     } else {
       let date = new Date()
       date.setDate(date.getDate()+1);
@@ -51,6 +52,7 @@ class CreateSample extends Component {
         temperature: this.state.temperature,
         spotId: this.state.spotId,
         location: this.state.location,
+        name: this.state.name,
         time: date.getTime(),
         tubes: []
     })
@@ -103,10 +105,11 @@ class CreateSample extends Component {
            <div className="create_title">{ this.state.isUpdate ? 'Update' : 'Create'}  New Sample</div>
            <div>Id</div>
             <div> <input value={this.state.id} disabled /></div>
+            <div>name</div>
+            <div><input onChange={(e) => this.handleInputChange(e)} name="name" value={this.state.name}/></div>
             <div>
             <div>Location</div>
             {select}
-    
             </div>
            <div>Date Time</div>
             <div>

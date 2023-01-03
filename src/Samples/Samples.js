@@ -44,10 +44,10 @@ class Samples extends Component {
             if(this.state.samples) {
       return (
         <div class="flex_column_samples"> 
-        <div class="flex_row_samples table_header"><div>Id</div><div>spotId</div><div>Time</div><div>Location</div><div>Temperature</div><div>Edit</div><div>Tubes</div></div>
+        <div class="flex_row_samples table_header"><div>Id</div><div></div><div>spotId</div><div>Time</div><div>Location</div><div>Temperature</div><div>Edit</div><div>Tubes</div></div>
         {
            this.state.samples.map(function (sample, i) {
-              return <div class="flex_row_samples" key={sample.id}><div>{sample.id}</div><div>{ sample.spotName}</div><div> {sample.time}</div><div>Location</div><div>{sample.temperature}</div><div><button onClick={() => {window.location.href ="/dashboard/create-sample/" + sample.id}}>Edit</button></div><div><button onClick={() =>  {window.location.href ="/dashboard/samples/" + sample.id + "/tubes"}}>Tubes</button></div></div> 
+              return <div class="flex_row_samples" key={sample.id}><div>{sample.id}</div><div>{sample.name}</div><div>{ sample.spotName}</div><div> {sample.time}</div><div>Location</div><div>{sample.temperature}</div><div><button onClick={() => {window.location.href ="/dashboard/create-sample/" + sample.id}}>Edit</button></div><div><button onClick={() =>  {window.location.href ="/dashboard/samples/" + sample.id + "/tubes"}}>Tubes</button></div></div> 
            })
         }
    </div>
