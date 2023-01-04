@@ -31,6 +31,12 @@ class Samples extends Component {
          console.log(docData.time)
          newSamplesArray.push(docData);
         });
+
+        newSamplesArray.sort(function(a,b){
+         // Turn your strings into dates, and then subtract them
+         // to get a value that is either negative, positive, or zero.
+         return new Date(b.time) - new Date(a.time);
+       });
         this.setState({samples: newSamplesArray})
       
     }

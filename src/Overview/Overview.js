@@ -44,7 +44,8 @@ class Overview extends Component {
         }
       })
       var startFrom = new Date();
-      for(let i = 0; i < 4; i++) {
+      startFrom.setDate(startFrom.getDate() - 3)
+      for(let i = 0; i < 8; i++) {
         var date = new Date();
         date.setDate(startFrom.getDate()+i);
         let indexCount = 0;
