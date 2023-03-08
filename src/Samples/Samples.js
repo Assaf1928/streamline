@@ -5,16 +5,19 @@ import './Samples.css'
 import {getDocs, collection} from "@firebase/firestore"
 import {Spots} from '../Consts/Spots'
 import { Table } from 'react-bootstrap';
-import { Button } from 'react-bootstrap'
-
+import { Button, Modal } from 'react-bootstrap'
+import CreateQR from '../Dashboard/Items/CreateQR.js';
 
 class Samples extends Component {
-   
-    constructor(props) {
-      super(props);
 
+   constructor(props) {
+      super(props);
+      this.handleClose = this.handleClose.bind(this);
+      this.openDialog = this.openDialog.bind(this);
       this.state = {
-         samples:undefined
+         samples:undefined,
+         show: false,
+         id: undefined,
       };
       
     }
@@ -43,6 +46,17 @@ class Samples extends Component {
         this.setState({samples: newSamplesArray})
       
     }
+
+    handleClose() {
+      this.setState({show: false})
+    }
+
+    openDialog(id) {
+      console.log(id)
+      this.setState({id: id, show: true})
+      console.log(this.state.show)
+    }
+
   
     componentWillUnmount() {
     }
@@ -52,16 +66,35 @@ class Samples extends Component {
     render() {
             if(this.state.samples) {
       return (
+         <div>
       <Table className='table_margin' striped bordered hover>        
-        <thead className='tr' ><tr><th>Id</th><th>Name</th><th>Spot</th><th>Location</th><th>Temperature</th><th>Edit</th><th>Tubes</th></tr></thead>
+        <thead className='tr' ><tr><th>Id</th><th>Name</th><th>Spot</th><th>Location</th><th>Temperature</th><th>Edit</th><th>Tubes</th><th>Tube QR</th></tr></thead>
         <tbody>
         {
-           this.state.samples.map(function (sample, i) {
-              return <tr className='tr' key={sample.id}><td>{sample.id}</td><td>{sample.name ? sample.name : ' Sample ' + sample.id}</td><td>{ sample.spotName}</td><td>Location</td><td>{sample.temperature}</td><td><Button onClick={() => {window.location.href ="/dashboard/create-sample/" + sample.id}}>Edit</Button></td><td><Button onClick={() =>  {window.location.href ="/dashboard/samples/" + sample.id + "/tubes"}}>Tubes</Button></td></tr> 
+           this.state.samples.map( (sample, i) => {
+              return <tr className='tr' key={sample.id}><td>{sample.id}</td><td>{sample.name ? sample.name : ' Sample ' + sample.id}</td>
+              <td>{ sample.spotName}</td><td>Location</td><td>{sample.temperature}</td>
+              <td><Button onClick={() => {window.location.href ="/dashboard/create-sample/" + sample.id}}>Edit</Button></td>
+              <td><Button onClick={() =>  {window.location.href ="/dashboard/samples/" + sample.id + "/tubes"}}>Tubes</Button></td>
+              <td><Button onClick={() => this.openDialog(sample.id)}> QR</Button>
+              </td>
+              </tr> 
            })
         }
         </tbody>
    </Table>
+     <Modal show={this.state.show} onHide={() => this.handleClose()} animation={false}>
+        <Modal.Header closeButton>
+          <Modal.Title>Create Tube QR</Modal.Title>
+        </Modal.Header>
+        <Modal.Body><CreateQR tube={true}/></Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => this.handleClose()}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+   </div>
       );
     }
 }

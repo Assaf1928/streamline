@@ -64,6 +64,18 @@ class CreateSample extends Component {
   }
     }
    async componentDidMount() {
+
+
+    let user = localStorage.getItem('user')
+    console.log(user)
+    if(user) {
+      this.setState({user: JSON.parse(user)})
+      console.log(this.state.user)
+    } else {
+      window.location.href = '/'
+
+    }
+
         const ref = collection(firestore,"samples");
         const url = window.location.href;
         this.setState({spots: Spots})
@@ -108,7 +120,7 @@ class CreateSample extends Component {
            <div>Id</div>
             <div> <Form.Control value={this.state.id} disabled /></div>
             <div>name</div>
-            <div><Form.Control onChange={(e) => this.handleInputChange(e)} name="name" value={this.state.name}/></div>
+            <div><Form.Control disabled onChange={(e) => this.handleInputChange(e)} name="name" value={this.state.user ? this.state.user.email : ''}/></div>
             <div>
             <div>Location</div>
             {select}

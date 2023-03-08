@@ -6,7 +6,7 @@ import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import {Button, Form} from 'react-bootstrap'
 
-function CreateQR() {
+function CreateQR(props) {
   const [value, setValue] = useState(0);
   const [selectOption, setSelectOption] = useState(0)
   let x = uuidv4();
@@ -30,7 +30,7 @@ function CreateQR() {
       mywindow.print();
       //mywindow.close();
   }
-  let string =  selectOption == 0 ? `http://localhost:3001/dashboard/create-sample/${x}`: `http://localhost:3001/dashboard/samples/${x}/tubes`
+  let string = props.tube == false ? `http://localhost:3001/dashboard/create-sample/${x}`: `http://localhost:3001/dashboard/samples/${x}/tubes`
   return (
     <div className='qr_creation_container'>
    <Card className='card_cont' style={{ width: '14rem' }}>
@@ -43,14 +43,6 @@ function CreateQR() {
         </Card.Text>
       </Card.Body>
       <ListGroup className="list-group-flush">
-        <ListGroup.Item><input type="radio" name="Size" /> Large</ListGroup.Item>
-        <ListGroup.Item><input type="radio" name="Size" /> Small</ListGroup.Item>
-        <ListGroup.Item><Form.Select onChange={(e) => setSelectOption(e.target.value)}
-        ><option value="0">Sample</option>
-        <option value="1">Tube</option></Form.Select> 
-        {selectOption}
-        </ListGroup.Item>
-
         <ListGroup.Item><input onChange={e => setValue(e.target.value)} type="number"/></ListGroup.Item>
       </ListGroup>
       <Card.Body>
