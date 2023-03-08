@@ -2,13 +2,16 @@ import React, { useState } from 'react';
 import './CreateQR.css';
 import {QRCodeSVG} from 'qrcode.react';
 import { v4 as uuidv4 } from 'uuid';
-
+import Card from 'react-bootstrap/Card';
+import ListGroup from 'react-bootstrap/ListGroup';
+import {Button, Form} from 'react-bootstrap'
 
 function CreateQR() {
   const [value, setValue] = useState(0);
+  const [selectOption, setSelectOption] = useState(0)
   let x = uuidv4();
 
-  function PrintElem()
+  const PrintElem = () =>
   {
       let mywindow = window.open('', 'PRINT', 'height=400,width=600');
       let elem = document.getElementById('QR')
@@ -27,23 +30,33 @@ function CreateQR() {
       mywindow.print();
       //mywindow.close();
   }
-  let string = `http://localhost:3000/dashboard/create-sample/${x}`
+  let string =  selectOption == 0 ? `http://localhost:3001/dashboard/create-sample/${x}`: `http://localhost:3001/dashboard/samples/${x}/tubes`
   return (
     <div className='qr_creation_container'>
-      <div id="QR">
-         <QRCodeSVG value={string} />
-         </div>
-         <div>Sample ID: {x} </div>
-         <div>Link : {string}</div>
-         <div>
-         <div><input type="radio" name="Size" /> Large</div>
-         <div><input type="radio" name="Size" /> Small</div>
-         </div>
-         <div><input onChange={e => setValue(e.target.value)} type="number"/> Quantity</div>
-         <div>
+   <Card className='card_cont' style={{ width: '14rem' }}>
+   <div className='qr_container' id="QR">
+    <QRCodeSVG value={string} /></div><Card.Body>
+        <Card.Title>Generate QR
+        </Card.Title>
+        <Card.Text>
+        Press the button to generate new QR
+        </Card.Text>
+      </Card.Body>
+      <ListGroup className="list-group-flush">
+        <ListGroup.Item><input type="radio" name="Size" /> Large</ListGroup.Item>
+        <ListGroup.Item><input type="radio" name="Size" /> Small</ListGroup.Item>
+        <ListGroup.Item><Form.Select onChange={(e) => setSelectOption(e.target.value)}
+        ><option value="0">Sample</option>
+        <option value="1">Tube</option></Form.Select> 
+        {selectOption}
+        </ListGroup.Item>
 
-      <button value="print" onClick={PrintElem}>Create</button>
-         </div>
+        <ListGroup.Item><input onChange={e => setValue(e.target.value)} type="number"/></ListGroup.Item>
+      </ListGroup>
+      <Card.Body>
+        <Card.Link href="#"> <Button value="print" onClick={() => PrintElem()}>Create</Button></Card.Link>
+      </Card.Body>
+    </Card>
    </div>
   );
 }

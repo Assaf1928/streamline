@@ -1,4 +1,12 @@
 .qr_creation_container {
-    margin: 0 auto;
+    margin: 20px  !important;
     text-align: center;
+}
+.qr_container {
+    padding: 10px;
+    margin: 0 auto;
+}
+
+.card_cont {
+    margin: 0 auto;
 }

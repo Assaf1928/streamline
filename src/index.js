@@ -12,6 +12,7 @@ import CreateQR from './Dashboard/Items/CreateQR.js'
 import CreateSample from './CreateSample/CreateSample'
 import Tubes from './Tubes/Tubes'
 import Overview from './Overview/Overview'
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import { BrowserRouter as Router,Routes, Route } from 'react-router-dom';
 
 

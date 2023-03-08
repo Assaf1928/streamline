@@ -4,6 +4,8 @@ import './CreateSample.css';
 import  { Component }  from 'react';
 import {addDoc, getDocs, collection, doc, setDoc} from "@firebase/firestore"
 import {Spots} from '../Consts/Spots'
+import {Form, Button} from 'react-bootstrap';
+
 
 
 class CreateSample extends Component {
@@ -92,34 +94,34 @@ class CreateSample extends Component {
     render() {
       let select = "";
       if(this.state && this.state.spots.length > 0 ) {
-    select =  <select name="spotId" value={this.state.spotId} onChange={(e) =>  this.handleInputChange(e)}>
+    select =  <Form.Select  name="spotId" value={this.state.spotId} onChange={(e) =>  this.handleInputChange(e)}>
       <option value="0"> None</option>
          {this.state.spots.map(spot=> {
           return  <option  key={spot.id} value={spot.id}>{spot.name}</option>
           })}
 
-        </select>
+        </Form.Select>
 }
       return (
         <div className="form_container">
            <div className="create_title">{ this.state.isUpdate ? 'Update' : 'Create'}  New Sample</div>
            <div>Id</div>
-            <div> <input value={this.state.id} disabled /></div>
+            <div> <Form.Control value={this.state.id} disabled /></div>
             <div>name</div>
-            <div><input onChange={(e) => this.handleInputChange(e)} name="name" value={this.state.name}/></div>
+            <div><Form.Control onChange={(e) => this.handleInputChange(e)} name="name" value={this.state.name}/></div>
             <div>
             <div>Location</div>
             {select}
             </div>
            <div>Date Time</div>
             <div>
-            <input name="time" value={this.state.timeToString} disabled onChange={() => this.handleInputChange} type="date"/>
+            <Form.Control name="time" value={this.state.timeToString} disabled onChange={() => this.handleInputChange} type="date"/>
             </div>
             <div>Temperature</div>
             <div>
-            <input value={20} disabled name="temperature" onChange={() => this.handleInputChange} type="number"/>
+            <Form.Control value={20} disabled name="temperature" onChange={() => this.handleInputChange} type="number"/>
            </div> 
-           <div><button type="button" onClick={() => this.handleSaving()}>{this.state.isUpdate ? 'Update' : 'Create'}</button></div>
+           <div><Button type="button" onClick={() => this.handleSaving()}>{this.state.isUpdate ? 'Update' : 'Create'}</Button></div>
         </div>
       );
     }

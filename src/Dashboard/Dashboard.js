@@ -3,11 +3,15 @@ import React from 'react'
 import './Dashboard.css';
 import  { Component }  from 'react';
 import { Link, Outlet } from "react-router-dom";
+import {Col, Nav, Row, Tab} from 'react-bootstrap';
 class Dashbaord extends Component {
     constructor(props) {
       super(props);
       this.handleChange = this.handleChange.bind(this);
+      this.Logout = this.Logout.bind(this);
+
       this.state = {
+        user: null,
         items: [{
             id:1,
             name: "Overview",
@@ -22,15 +26,39 @@ class Dashbaord extends Component {
           id:3,
           name: "Samples",
           route: "/dashboard/samples"
-      }]
+      },
+      {
+        id:4,
+        name: "Users",
+        route: "/dashboard/users"
+    },
+    { id: 5, 
+      name: "Locations", 
+      route: '/dashboard/locations'
+      },
+      { id: 6, 
+        name: "Tube Types", 
+        route: '/dashboard/tube/types'
+        }]
       };
     }
   
     componentDidMount() {
       // Subscribe to changes
-      console.log('hi')
+      let user = localStorage.getItem('user')
+      console.log(user)
+      if(user) {
+        this.setState({user: JSON.parse(user)})
+      } else {
+        window.location.href = '/'
+
+      }
+      
     }
-  
+    Logout () {
+      localStorage.removeItem('user')
+      window.location.href = '/'
+    }
     componentWillUnmount() {
       // Clean up listener
     }
@@ -41,16 +69,31 @@ class Dashbaord extends Component {
   
     render() {
       return (
-        <div className="dashboard_container">
-        <div className="navbar_lefty">
+        <Tab.Container  id="left-tabs-example" defaultActiveKey="first">
+      <Row className='row_limit'>
+        
+        <Col  className="tabs_container" sm={2}>      
+        {console.log(this.state)}
+       <div > { this.state.user ?  <div className='welcome'> Welcome Back, {this.state.user.email} </div>  : ''}</div>
+
+        <Nav variant="pills" className="flex-column">
           {this.state.items.map((navitem) => (
-           <div><Link key={navitem.id} to={navitem.route}> {navitem.name} </Link></div>
+            <Nav.Item>
+              <div className='tab_route'>
+            <a key={navitem.id} href={navitem.route}> {navitem.name} </a>     
+            </div>
+            </Nav.Item>
           ))}
-        </div>
-        <div className="item_container">
+        </Nav>
+        <div key={this.state.user}> { this.state.user ?  <div onClick={() => this.Logout()} className='welcome'> Logout </div>  : ''}</div>
+
+       </Col>
+        <Col sm={9}>
         <Outlet/>
-        </div>
-        </div>
+        </Col>
+
+        </Row>
+        </Tab.Container>
       );
     }
   }

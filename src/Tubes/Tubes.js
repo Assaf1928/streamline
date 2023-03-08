@@ -4,6 +4,8 @@ import './Tubes.css';
 import {addDoc, getDocs, collection, doc, setDoc} from "@firebase/firestore"
 import  { Component }  from 'react';
 import {TubeTypes} from '../Consts/TubesTypes.js'
+import {Col,Row,Form, Button, Card} from 'react-bootstrap';
+
 
 
 class Tubes extends Component {
@@ -25,7 +27,69 @@ class Tubes extends Component {
             name: 'COD',
             value: '',
             type: TubeTypes.COD
-        }],
+        },
+        {
+            id: 3,
+            name: 'TSS',
+            value: '',
+            type: TubeTypes.TSS
+        },
+        {
+            id: 4,
+            name: 'VSS',
+            value: '',
+            type: TubeTypes.VSS
+        },
+        {
+            id: 5,
+            name: 'TN',
+            value: '',
+            type: TubeTypes.TN
+        },
+        {
+            id: 6,
+            name: 'TKN',
+            value: '',
+            type: TubeTypes.TKN
+        },
+        {
+            id: 7,
+            name: 'NH3',
+            value: '',
+            type: TubeTypes.NH3
+        },
+        {
+            id: 8,
+            name: 'TP',
+            value: '',
+            type: TubeTypes.TP
+        },{
+            id: 9,
+            name: 'PO4',
+            value: '',
+            type: TubeTypes.PO4
+        },{
+            id: 10,
+            name: 'TDS',
+            value: '',
+            type: TubeTypes.TDS
+        },{
+            id: 11,
+            name: 'Total Hardness',
+            value: '',
+            type: TubeTypes.TotalHarddness
+        },{
+            id: 12,
+            name: 'Ikalinity',
+            value: '',
+            type: TubeTypes.Ikalinity
+        },
+        {
+            id: 13,
+            name: 'ICP',
+            value: '',
+            type: TubeTypes.ICP
+        },],
         dbId: undefined
       };
     }
@@ -66,7 +130,7 @@ class Tubes extends Component {
            currentTubesArray.push( {
                 id: newId,
                 name: tube.name,
-                value: '',
+                value: 0,
                 type: tube.type
             })
             this.setState({tubes: currentTubesArray})
@@ -104,16 +168,36 @@ class Tubes extends Component {
     
      renderInput = (tube, i) => {
         return(
-            <div key={ tube.id }>
-                <div>{tube.name}</div>
-                <input
-                    name={ tube.id }
+
+            <Card className='card_container'>
+            <Card.Header>                        <div className='tab_name'>{tube.name}</div>
+</Card.Header>
+            <Card.Body>
+              <blockquote className="blockquote mb-0">
+              <div key={ tube.id }>
+                <div class="mt-4 mb-2">
+                    <Row>
+                     
+                        <Col xs lg="1">
+                <Form.Control className="input_width" size="LG" type="number" name={ tube.id }
                     value= {tube.value}
-                    onChange={ this.handleInputChange }
-                />
-                <span onClick={ () => this.duplicateTube(tube)}>+</span>
-                <span onClick={ () => this.deleteTube(tube)}>-</span>
+                    onChange={ this.handleInputChange }  />
+                    </Col>
+                    <Col xs lg="1">
+                          <Button variant="outline-primary"onClick={ () => this.duplicateTube(tube)} >Add</Button>{' '}
+                          </Col>
+                          <Col xs lg="1">
+                          <Button variant="outline-danger" onClick={ () => this.deleteTube(tube)}>Remove</Button>{' '}
+                          </Col>
+                          </Row>
+
+                </div>
+                
             </div>
+              </blockquote>
+            </Card.Body>
+          </Card>
+     
         )
     }
 
@@ -121,11 +205,22 @@ class Tubes extends Component {
 
         return (
             <div>
+            <div class="title"> Add Tube Values</div>
+
+            <div className='container'>
             {
                 
-            this.state.tubes.map(this.renderInput)
+            this.state.tubes.sort((a,b) => {
+            if(a.name < b.name) {
+                return - 1
+            } if(a.name > b.name) {
+                return 1;
             }
-            <button onClick={() => this.handleSaving()}>Save</button>
+            return 0
+            }).map(this.renderInput)
+            }
+            <Button onClick={() => this.handleSaving()}>Save</Button>
+       </div>
        </div>
           );
         }

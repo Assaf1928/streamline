@@ -1,20 +1,33 @@
-.plus_circle_container {
-  display: flex;
-  flex-direction: row;
-  width: 150px;
-  justify-content: space-between;
-  color: #3588a5;
+.App {
+  height: 60vh;
+  width: 80vw;
   margin: 0 auto;
-  font-weight: bold;
-  cursor: pointer;
+  margin-top: 200px;
+  border: 2px solid black;
+  
 }
 .stream_line_logo {
-  max-width: 200px;
-  max-height: 200px;
-  margin-left: 200px;
+  position: absolute;
+  min-width: 500px;
+  min-height: 500px;
+  left: 100px
+
+}
+.input_containers {
+  background-color:#006e8c;
+  position: relative;
+}
+.btn_login {
+  text-align: center;
   margin: 0 auto
 }
-
+.col_inputs {
+  margin-top: 300px !important;
+}
 .stream_line_container {
   margin: 0 auto;
+}
+.row_height {
+  height: 80vh;
+
 }

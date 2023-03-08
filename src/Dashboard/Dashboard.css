@@ -9,6 +9,14 @@
     text-align: center;
 
 }
+a { color: inherit !important } 
+
+.tabs_container {
+    color: white !important;
+    text-decoration: none !important;
+    background-color: #006e8c !important;
+    height: 100vh
+}
 .navbar_lefty div {
     margin-top: 10px;
     margin-right: 5px;
@@ -31,4 +39,34 @@
     min-width: 80%;
     margin-top: 50px;
 }
-a { color: inherit; text-decoration: none; } 
+a { color: inherit; 
+    text-decoration: none !important;
+    font-size: 20px;
+ } 
+ .tab_route {
+    padding: 20px;
+    margin: 10px;
+    border: 2px solid black;
+    text-align: center;
+    box-shadow: 2px 4px 1px black;
+    width: 200px;
+    transition: 0.5s;
+ }
+ .tab_route:hover {
+    background-color: #F2F1EF;
+    font-weight: bold;
+    color: #053D57;
+    cursor: pointer;
+    width: 250px
+ }
+ .row_limit {
+    max-width:99vw
+ }
+ .welcome {
+    font-weight: 300;
+    text-decoration: wavy;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-left: 10px;
+    cursor: pointer;
+ }

@@ -5,6 +5,9 @@ import {firestore} from "../firebase.js"
 import moment from 'moment'
 import { Spots } from '../Consts/Spots.js';
 import {getDocs, collection} from "@firebase/firestore"
+import {Form, Button} from 'react-bootstrap';
+import './Overview.css'
+
 
 class Overview extends Component {
     constructor(props) {
@@ -111,20 +114,20 @@ class Overview extends Component {
 
       let spotSelect = "";
       if(Spots && Spots.length > 0) {
-        spotSelect =  <select name="spotId" value={this.state.spotId} onChange={(event) =>  this.handleSpotChange(event)}>
+        spotSelect =  <Form.Select className='select' name="spotId" value={this.state.spotId} onChange={(event) =>  this.handleSpotChange(event)}>
       <option value="0"> None</option>
          {Spots.map(spot=> {
           return  <option  key={spot.id} value={spot.id}>{spot.name}</option>
           })}
 
-        </select>
+        </Form.Select>
 }
       return (
         <div>
-         <select onChange={(e) => this.handleChange(e)}>
+         <Form.Select className='select' onChange={(e) => this.handleChange(e)}>
           <option value="1">BOD</option>
           <option value="2">COD</option>
-         </select>
+         </Form.Select>
          {spotSelect}
           <Chart
         chartType="LineChart"

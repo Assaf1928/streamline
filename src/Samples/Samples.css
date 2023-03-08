@@ -5,6 +5,10 @@
 .table_header {
     background-color: gray
 }
+.tr {
+    margin: 0 auto;
+    text-align: center;
+}
 .flex_row_samples {
     display: flex;
     flex-direction: row;
@@ -16,4 +20,7 @@
     border: 1px solid #747171;
     border-radius: 4px;
     text-align: center;
+}
+.table_margin {
+    margin: 50px;
 }
