@@ -20,7 +20,7 @@ class Tubes extends Component {
             id: 1,
             name: 'BOD',
             value: '',
-            type: TubeTypes.BOD
+            type: TubeTypes.BOD,
          },
         {
             id: 2,
@@ -140,8 +140,12 @@ class Tubes extends Component {
     }
     deleteTube(tube) {
     let updatedArray = this.state.tubes
+    if(this.state.tubes.filter(t=>t.type == tube.type).length > 1) {
     updatedArray.pop(x=>x.id == tube.id)
     this.setState({tubes: updatedArray})
+    } else {
+        alert('Cant remove last Tube')
+    }
 
     }
     async handleSaving() {
@@ -170,18 +174,15 @@ class Tubes extends Component {
         return(
 
             <Card className='card_container'>
-            <Card.Header>                        <div className='tab_name'>{tube.name}</div>
-</Card.Header>
+            <Card.Header>                        
+                <div className='tab_name'>{tube.name}</div>
+            </Card.Header>
             <Card.Body>
               <blockquote className="blockquote mb-0">
               <div key={ tube.id }>
                 <div class="mt-4 mb-2">
-                    <Row>
-                     
-                        <Col xs lg="1">
-                <Form.Control className="input_width" size="LG" type="number" name={ tube.id }
-                    value= {tube.value}
-                    onChange={ this.handleInputChange }  />
+                    <Row><Col xs lg="1">
+                         <Form.Control className="input_width" size="LG" type="number" name={ tube.id }  value= {tube.value} onChange={ this.handleInputChange }  />
                     </Col>
                     <Col xs lg="1">
                           <Button variant="outline-primary"onClick={ () => this.duplicateTube(tube)} >Add</Button>{' '}
