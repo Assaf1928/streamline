@@ -15,7 +15,7 @@ a { color: inherit !important }
     color: white !important;
     text-decoration: none !important;
     background-color: #006e8c !important;
-    height: 100vh
+    height: 120vh;
 }
 .navbar_lefty div {
     margin-top: 10px;
@@ -43,6 +43,28 @@ a { color: inherit;
     text-decoration: none !important;
     font-size: 20px;
  } 
+ .navbar {
+    width: 99vw;
+    text-align: center;
+    background-color:  #053D57;
+    position: relative;
+ }
+ .circle_navbar {
+    background-image: url("https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80");    border: 2px solid black;
+    position: absolute;
+    background-size: 100px 100px;
+
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    top: 10px;
+    right: 20px;
+ }
+ .navbar span {
+    margin-left: 20px; 
+     color: white;
+    letter-spacing: 10px;
+ }
  .tab_route {
     padding: 20px;
     margin: 10px;
@@ -65,8 +87,20 @@ a { color: inherit;
  .welcome {
     font-weight: 300;
     text-decoration: wavy;
-    margin-bottom: 20px;
-    margin-top: 20px;
-    margin-left: 10px;
+    right: 300px;
+    width: 300px;
+    top: 10px;
+    position: absolute;
+    color: white;
     cursor: pointer;
+ }
+ .logout {
+    color: white;
+    position: absolute;
+    top: 10px;
+    right: 150px;
+    cursor: pointer;
+ }
+ .logout:hover {
+    text-decoration: underline;
  }

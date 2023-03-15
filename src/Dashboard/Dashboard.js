@@ -69,12 +69,16 @@ class Dashbaord extends Component {
   
     render() {
       return (
+        <div>
+          <div className='navbar'><span>STREANLINE</span> 
+          <div > { this.state.user ?  <div className='welcome'> Hi, {this.state.user.email}  </div>  : ''} <div className="logout" onClick={() => this.Logout()}>Logout</div></div>
+
+          <div className='circle_navbar'></div>
+          </div>
         <Tab.Container  id="left-tabs-example" defaultActiveKey="first">
       <Row className='row_limit'>
         
         <Col  className="tabs_container" sm={2}>      
-        {console.log(this.state)}
-       <div > { this.state.user ?  <div className='welcome'> Welcome Back, {this.state.user.email} </div>  : ''}</div>
 
         <Nav variant="pills" className="flex-column">
           {this.state.items.map((navitem) => (
@@ -85,7 +89,6 @@ class Dashbaord extends Component {
             </Nav.Item>
           ))}
         </Nav>
-        <div key={this.state.user}> { this.state.user ?  <div onClick={() => this.Logout()} className='welcome'> Logout </div>  : ''}</div>
 
        </Col>
         <Col sm={9}>
@@ -94,6 +97,7 @@ class Dashbaord extends Component {
 
         </Row>
         </Tab.Container>
+        </div>
       );
     }
   }
