@@ -123,9 +123,15 @@ class Tubes extends Component {
     duplicateTube(tube) {
         if(tube) {
             console.log(tube)
+            let id = -1
+            this.state.tubes.forEach(element => {
+                if(element.id > id) {
+                    id = element.id
+                }
+            });
         let lastTube = this.state.tubes[this.state.tubes.length -1]
         if(lastTube) {
-            let newId = lastTube.id + 1;
+            let newId = id;
            let currentTubesArray =  this.state.tubes
            currentTubesArray.push( {
                 id: newId,
@@ -141,8 +147,8 @@ class Tubes extends Component {
     deleteTube(tube) {
     let updatedArray = this.state.tubes
     if(this.state.tubes.filter(t=>t.type == tube.type).length > 1) {
-    updatedArray.pop(x=>x.id == tube.id)
-    this.setState({tubes: updatedArray})
+   let filter =  updatedArray.filter(x=>x.id != tube.id)
+    this.setState({tubes: filter})
     } else {
         alert('Cant remove last Tube')
     }
@@ -182,7 +188,7 @@ class Tubes extends Component {
               <div key={ tube.id }>
                 <div class="mt-4 mb-2">
                     <Row><Col xs lg="1">
-                         <Form.Control className="input_width" size="LG" type="number" name={ tube.id }  value= {tube.value} onChange={ this.handleInputChange }  />
+                         <Form.Control step="0.01" className="input_width" size="LG" type="number" name={ tube.id }  value= {tube.value} onChange={ this.handleInputChange }  />
                     </Col>
                     <Col xs lg="1">
                           <Button variant="outline-primary"onClick={ () => this.duplicateTube(tube)} >Add</Button>{' '}
