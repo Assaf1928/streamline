@@ -68,11 +68,11 @@ class Samples extends Component {
       return (
          <div>
       <Table className='table_margin' striped bordered hover>        
-        <thead className='tr' ><tr><th>Id</th><th>Name</th><th>Spot</th><th>Location</th><th>Temperature</th><th>Edit</th><th>Tubes</th><th>Tube QR</th></tr></thead>
+        <thead className='tr' ><tr><th>#</th><th>Name</th><th>Spot</th><th>Location</th><th>Temperature</th><th>Edit</th><th>Tubes</th><th>Tube QR</th></tr></thead>
         <tbody>
         {
            this.state.samples.map( (sample, i) => {
-              return <tr className='tr' key={sample.id}><td>{sample.id}</td><td>{sample.name ? sample.name : ' Sample ' + sample.id}</td>
+              return <tr className='tr' key={sample.id}><td>{i}</td><td>{sample.name ? sample.name : ' Sample ' + sample.id}</td>
               <td>{ sample.spotName}</td><td>Location</td><td>{sample.temperature}</td>
               <td><Button onClick={() => {window.location.href ="/dashboard/create-sample/" + sample.id}}>Edit</Button></td>
               <td><Button onClick={() =>  {window.location.href ="/dashboard/samples/" + sample.id + "/tubes"}}>Tubes</Button></td>

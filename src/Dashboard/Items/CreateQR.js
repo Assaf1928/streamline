@@ -7,7 +7,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import {Button, Form} from 'react-bootstrap'
 
 function CreateQR(props) {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(1);
   const [selectOption, setSelectOption] = useState(0)
   let x = uuidv4();
  let typesArr = [{
@@ -88,7 +88,8 @@ function CreateQR(props) {
       mywindow.print();
       //mywindow.close();
   }
-  let string = props.tube == false ? `http://localhost:3001/dashboard/create-sample/${x}`: `http://localhost:3001/dashboard/samples/${x}/tubes`
+  console.log(props.tube)
+  let string =  props.tube === true ? `http://localhost:3001/dashboard/samples/${x}/tubes` : `http://localhost:3001/dashboard/create-sample/${x}`
   return (
     <div className='qr_creation_container'>
    <Card className='card_cont' style={{ width: '14rem' }}>
@@ -101,7 +102,7 @@ function CreateQR(props) {
         </Card.Text>
       </Card.Body>
       <ListGroup className="list-group-flush">
-        <ListGroup.Item><input disabled={props.tube} onChange={e => setValue(e.target.value)} type="number"/></ListGroup.Item>
+        <ListGroup.Item><input disabled={props.tube} value={value} onKeyDown="return false" min="1" max="20" onChange={e => setValue(e.target.value)} type="number"/></ListGroup.Item>
       </ListGroup>
       <Card.Body>
         <Card.Link href="#"> <Button value="print" onClick={() => PrintElem()}>Create</Button></Card.Link>
