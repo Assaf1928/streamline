@@ -91,6 +91,13 @@ class Overview extends Component {
     componentWillUnmount() {
       // Clean up listener
     }
+    
+    async HandleTubeType(event) {
+      if(event && event.target && event.target.value) {
+      this.setState({tubeTypeId: event.target.value})
+      await this.orginaizeData()
+      }
+    }
     async handleSpotChange(event) {
       if(event && event.target && event.target.value) {
       this.setState({locationId: event.target.value})
@@ -121,7 +128,7 @@ class Overview extends Component {
 }
 
 if(this.state.tubeTypes && this.state.tubeTypes.length > 0) {
-  typeSelect =  <Form.Select className='select' name="tubeTypeId" value={this.state.tubeTypeId} onChange={(event) =>  this.handleSpotChange(event)}>
+  typeSelect =  <Form.Select className='select' name="tubeTypeId" value={this.state.tubeTypeId} onChange={(event) =>  this.HandleTubeType(event)}>
 <option value="0"> None</option>
    {this.state.tubeTypes.map(tubeType=> {
     return  <option  key={tubeType.id} value={tubeType.id}>{tubeType.name}</option>

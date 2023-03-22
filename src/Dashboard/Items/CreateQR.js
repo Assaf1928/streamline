@@ -79,7 +79,13 @@ function CreateQR(props) {
       for(let i = 0; i< value; i++) {
       mywindow.document.write("<br/>" + elem.innerHTML + "<br/>");
       mywindow.document.write("<br/>")
-      mywindow.document.write(x);
+      //mywindow.document.write(x);
+      mywindow.document.write("<pre>");
+      mywindow.document.write("Spot Name:");
+      mywindow.document.write("<br/>");
+      mywindow.document.write("Date:");
+      mywindow.document.write("<br/>");
+      mywindow.document.write("</pre>");
       mywindow.document.write("<br/>" + "<br/>");
       }
   
