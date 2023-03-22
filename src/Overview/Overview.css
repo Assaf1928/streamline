@@ -3,3 +3,14 @@
     margin: 0 auto;
     margin-top: 100px;
 }
+.date_containers {
+    margin: 0 auto;
+    text-align: center;
+    width: 300px;
+    display: flex;
+    flex-direction: row;
+}
+
+.date_containers div {
+margin: 10px
+}

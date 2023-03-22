@@ -5,7 +5,9 @@ import  { Component }  from 'react';
 import {addDoc, getDocs, collection, doc, setDoc} from "@firebase/firestore"
 import {Spots} from '../Consts/Spots'
 import {Form, Button} from 'react-bootstrap';
-
+import axios from 'axios';
+import CreateQR from '../Dashboard/Items/CreateQR.js';
+import moment from 'moment';
 
 
 class CreateSample extends Component {
@@ -16,18 +18,15 @@ class CreateSample extends Component {
 
       this.state = {
             id:  undefined,
+            locations: [],
             temperature: 20,
-            location: { 
-            latitude: 10,
-            longitude: 10
-            },
             name:'',
-            spotId: 0,
+            locationId: 0,
             time: new Date(),
             timeToString: new Date().toISOString().substring(0,10),
-            spots: [{id: 0, name: 'none'}],
             isUpdate: false,
-            dbId: undefined
+            dbId: undefined,
+            note: ''
       };
     }
     handleInputChange(event) {
@@ -40,31 +39,27 @@ class CreateSample extends Component {
         });
       }
     async handleSaving() {
-      if(this.state.id) {
-    const ref = collection(firestore,"samples");
-    console.log(this.state.isUpdate && this.state.dbId)
-    if(this.state.isUpdate && this.state.dbId) {
-    const docRef = doc(firestore, "samples",  this.state.dbId)
-    await setDoc(docRef,{spotId: this.state.spotId, name: this.state.name}, {merge: true})
-    } else {
-      let date = new Date()
-      date.setDate(date.getDate()+1);
-   await addDoc(ref, {
-        id: this.state.id,
-        temperature: this.state.temperature,
-        spotId: this.state.spotId,
-        location: this.state.location,
-        name: this.state.name,
-        time: date.getTime(),
-        tubes: []
+      if(this.state.isUpdate && this.state.dbId) {
+        axios.put(`http://localhost:3000/samples/${this.state.dbId}`,({locationId: this.state.locationId, note: this.state.note})).then(() => {
+          alert('Thank You! ')
+          window.location.href = '/dashboard/samples'
+        })
+      } else {
+      axios.post('http://localhost:3000/samples',({locationId: this.state.locationId, qr: this.state.id, note: this.state.note, user: this.state.user.email})).then(() => {
+        alert('Thank You! ')
+        window.location.href = '/dashboard/samples'
+
     })
   }
-    alert('Thank You! ')
-    window.location.href = '/dashboard/samples'
-  }
-    }
-   async componentDidMount() {
 
+  }
+    
+   async componentDidMount() {
+    let date = this.state.time
+    this.setState({timeToString: moment(date).format('DD/MM/yy HH:mm ')})
+    axios.get('http://localhost:3000/locations').then((res) => {
+      this.setState({locations: res.data.res})
+  })
 
     let user = localStorage.getItem('user')
     console.log(user)
@@ -75,24 +70,19 @@ class CreateSample extends Component {
       window.location.href = '/'
 
     }
-
-        const ref = collection(firestore,"samples");
         const url = window.location.href;
-        this.setState({spots: Spots})
         let splitUrl = url.split('/')
         let lastIndex = splitUrl.length - 1;
         if(splitUrl) {
-
         let id =  splitUrl[lastIndex]
-        let querySnapshot = await getDocs(ref)
-        let newSamplesArray = []
-        querySnapshot.forEach((doc) => {
-            newSamplesArray.push({dbId: doc.id, ...doc.data()});
-        });
-        let existsInDb = newSamplesArray.find(r=>r.id == id)
-        if(existsInDb) {
-            this.setState({isUpdate: true, dbId: existsInDb.dbId, spotId: existsInDb.spotId})
-        }
+        console.log(id)
+        axios.get(`http://localhost:3000/samples/existance/${id}`).then((res) =>{
+          if(res.data && res.data.sample) {
+            let sample = res.data.sample
+            let timeToString = moment(sample.time).format('DD/MM/yy HH:mm ')
+          this.setState({isUpdate: true, dbId : sample._id, qr: sample.qr, locationId: sample.location, note: sample.note, name: sample.user, timeToString: timeToString })
+          }
+        })
         this.setState({id: id}) 
     }
     }
@@ -105,19 +95,26 @@ class CreateSample extends Component {
   
     render() {
       let select = "";
-      if(this.state && this.state.spots.length > 0 ) {
-    select =  <Form.Select  name="spotId" value={this.state.spotId} onChange={(e) =>  this.handleInputChange(e)}>
+      if(this.state && this.state.locations.length > 0 ) {
+    select =  <Form.Select  name="locationId" value={this.state.locationId} onChange={(e) =>  this.handleInputChange(e)}>
       <option value="0"> None</option>
-         {this.state.spots.map(spot=> {
-          return  <option  key={spot.id} value={spot.id}>{spot.name}</option>
+         {this.state.locations.map(location=> {
+          return  <option  key={location.id} value={location.id}>{location.name}</option>
           })}
 
         </Form.Select>
 }
       return (
-        <div className="form_container">
-           <div className="create_title">{ this.state.isUpdate ? 'Update' : 'Create'}  New Sample</div>
-           <div>Id</div>
+<div>
+        <div className="create_title">{ this.state.isUpdate ? 'Update' : 'Create'}  New Sample</div>
+
+<div className='column'>
+<div><CreateQR id={this.state.id}/>
+</div>
+
+
+<div className="form_container">
+           <div>QR Code</div>
             <div> <Form.Control value={this.state.id} disabled /></div>
             <div>name</div>
             <div><Form.Control disabled onChange={(e) => this.handleInputChange(e)} name="name" value={this.state.user ? this.state.user.email : ''}/></div>
@@ -127,14 +124,16 @@ class CreateSample extends Component {
             </div>
            <div>Date Time</div>
             <div>
-            <Form.Control name="time" value={this.state.timeToString} disabled onChange={() => this.handleInputChange} type="date"/>
+            <Form.Control name="time" value={this.state.timeToString} disabled onChange={() => this.handleInputChange} />
             </div>
-            <div>Temperature</div>
+           <div>Note</div>
             <div>
-            <Form.Control value={20} disabled name="temperature" onChange={() => this.handleInputChange} type="number"/>
+            <Form.Control name="note" value={this.state.note} onChange={(e) => this.handleInputChange(e)} />
            </div> 
            <div><Button type="button" onClick={() => this.handleSaving()}>{this.state.isUpdate ? 'Update' : 'Create'}</Button></div>
         </div>
+</div>
+</div>
       );
     }
   }

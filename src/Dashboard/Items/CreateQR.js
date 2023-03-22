@@ -9,7 +9,8 @@ import {Button, Form} from 'react-bootstrap'
 function CreateQR(props) {
   const [value, setValue] = useState(1);
   const [selectOption, setSelectOption] = useState(0)
-  let x = uuidv4();
+  let x = props.id ? props.id : uuidv4();
+  console.log(x)
  let typesArr = [{
     id: 1,
     name: 'BOD',

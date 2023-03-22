@@ -1,12 +1,9 @@
 import React from 'react'
 import  { Component }  from 'react';
 import { Chart } from "react-google-charts";
-import {firestore} from "../firebase.js"
-import moment from 'moment'
-import { Spots } from '../Consts/Spots.js';
-import {getDocs, collection} from "@firebase/firestore"
 import {Form, Button} from 'react-bootstrap';
 import './Overview.css'
+import axios from 'axios';
 
 
 class Overview extends Component {
@@ -15,8 +12,10 @@ class Overview extends Component {
       this.handleChange = this.handleChange.bind(this);
       this.handleSpotChange = this.handleSpotChange.bind(this);
       this.state = {
-        spotId: 0,
-        tubeFilter: 1,
+        locationId: 0,
+        locations: [],
+        tubeTypes: [],
+        tubeTypeId: 1,
         data: [
 
           ],
@@ -29,54 +28,51 @@ class Overview extends Component {
     }
   
    async orginaizeData() {
+
+    axios.get('http://localhost:3000/tubes/types').then((res) => {
+      this.setState({tubeTypes: res.data.res})
+  })
+
+  axios.get('http://localhost:3000/locations').then((res) => {
+            this.setState({locations: res.data.res})
+        })
+
       let newArray = [];
       newArray.push(["Date","Value"])
-      const ref =  collection(firestore,"samples");
-      let querySnapshot = await getDocs(ref)
-      let newSamplesArray = []
-      querySnapshot.forEach((doc) => {
-        let shouldPush = false;
-        if(this.state.spotId && this.state.spotId != "0") {
-          let data = doc.data()
-          shouldPush = data.spotId == this.state.spotId
-        } else {
-          shouldPush = true
-        }
-        if(shouldPush) {
-          newSamplesArray.push(doc.data())
-        }
-      })
       var startFrom = new Date();
+      startFrom.setDate(startFrom.getDate()-8);
+
       startFrom.setDate(startFrom.getDate() - 3)
       for(let i = 0; i < 8; i++) {
         var date = new Date();
         date.setDate(startFrom.getDate()+i);
         let indexCount = 0;
         let count = 0;
-        newSamplesArray.forEach(sample => {
-          date.setHours(0,0,0,0)
-          let sampleDate =new Date(sample.time)
-          sampleDate.setHours(0,0,0,0)
-       //   console.log('sampleDate' + sampleDate, 'date' + date)
-         // console.log(sampleDate.getTime() == date.getTime())
+      //   newSamplesArray.forEach(sample => {
+      //     date.setHours(0,0,0,0)
+      //     let sampleDate =new Date(sample.time)
+      //     sampleDate.setHours(0,0,0,0)
+      //  //   console.log('sampleDate' + sampleDate, 'date' + date)
+      //    // console.log(sampleDate.getTime() == date.getTime())
 
-          if(sampleDate.getTime() == date.getTime()) {
-            if(sample.tubes) {
-            let BOD = this.state.tubeFilter
-            let bodTubes =   sample.tubes.filter(t=>t.type == BOD)
-            bodTubes.forEach(m=> {
-              if(m.value) {
-                count += parseInt(m.value) 
-                indexCount++;
-              }
-            })
-            }
-          }
-        });
+      //     if(sampleDate.getTime() == date.getTime()) {
+      //       if(sample.tubes) {
+      //       let BOD = this.state.tubeFilter
+      //       let bodTubes =   sample.tubes.filter(t=>t.type == BOD)
+      //       bodTubes.forEach(m=> {
+      //         if(m.value) {
+      //           count += parseInt(m.value) 
+      //           indexCount++;
+      //         }
+      //       })
+      //       }
+      //     }
+      //   });
         let strDate = date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
         console.log(date)
         console.log(strDate)
-        newArray.push([strDate,count / indexCount])
+      let x =  Math.floor(Math.random() * 10)
+        newArray.push([strDate,x])
         
       }
       this.setState({data: newArray})
@@ -97,7 +93,7 @@ class Overview extends Component {
     }
     async handleSpotChange(event) {
       if(event && event.target && event.target.value) {
-      this.setState({spotId: event.target.value})
+      this.setState({locationId: event.target.value})
       await this.orginaizeData()
       }
     }
@@ -112,23 +108,45 @@ class Overview extends Component {
       
     render() {
 
-      let spotSelect = "";
-      if(Spots && Spots.length > 0) {
-        spotSelect =  <Form.Select className='select' name="spotId" value={this.state.spotId} onChange={(event) =>  this.handleSpotChange(event)}>
+      let locationSelect = "";
+      let typeSelect = "";
+      if(this.state.locations && this.state.locations.length > 0) {
+        locationSelect =  <Form.Select className='select' name="locationId" value={this.state.locationId} onChange={(event) =>  this.handleSpotChange(event)}>
       <option value="0"> None</option>
-         {Spots.map(spot=> {
-          return  <option  key={spot.id} value={spot.id}>{spot.name}</option>
+         {this.state.locations.map(location=> {
+          return  <option  key={location.id} value={location.id}>{location.name}</option>
           })}
 
         </Form.Select>
 }
+
+if(this.state.tubeTypes && this.state.tubeTypes.length > 0) {
+  typeSelect =  <Form.Select className='select' name="tubeTypeId" value={this.state.tubeTypeId} onChange={(event) =>  this.handleSpotChange(event)}>
+<option value="0"> None</option>
+   {this.state.tubeTypes.map(tubeType=> {
+    return  <option  key={tubeType.id} value={tubeType.id}>{tubeType.name}</option>
+    })}
+
+  </Form.Select>
+}
+
       return (
         <div>
-         <Form.Select className='select' onChange={(e) => this.handleChange(e)}>
-          <option value="1">BOD</option>
-          <option value="2">COD</option>
-         </Form.Select>
-         {spotSelect}
+          <div>
+        {typeSelect}
+        </div><div>
+         {locationSelect}
+         </div>
+         <div className='date_containers'>
+          <div>
+          <div>From</div>
+         <input type="date" onChange={() => this.orginaizeData()}  ></input>
+         </div>
+         <div>
+         <div>To</div><div><input onChange={() => this.orginaizeData()} type="date"></input></div>
+         </div>
+         </div>
+         <div>
           <Chart
         chartType="LineChart"
         width="100%"
@@ -136,6 +154,7 @@ class Overview extends Component {
         data={this.state.data}
         options={this.state.options}
       /></div>
+      </div>
       );
     }
   }

@@ -5,6 +5,7 @@ import {addDoc, getDocs, collection, doc, setDoc} from "@firebase/firestore"
 import  { Component }  from 'react';
 import {TubeTypes} from '../Consts/TubesTypes.js'
 import {Col,Row,Form, Button, Card} from 'react-bootstrap';
+import axios from 'axios'
 
 
 
@@ -16,158 +17,79 @@ class Tubes extends Component {
     this.duplicateTube = this.duplicateTube.bind(this);
     this.deleteTube = this.deleteTube.bind(this);
       this.state = {
-         tubes:[{
-            id: 1,
-            name: 'BOD',
-            value: '',
-            type: TubeTypes.BOD,
-         },
-        {
-            id: 2,
-            name: 'COD',
-            value: '',
-            type: TubeTypes.COD
-        },
-        {
-            id: 3,
-            name: 'TSS',
-            value: '',
-            type: TubeTypes.TSS
-        },
-        {
-            id: 4,
-            name: 'VSS',
-            value: '',
-            type: TubeTypes.VSS
-        },
-        {
-            id: 5,
-            name: 'TN',
-            value: '',
-            type: TubeTypes.TN
-        },
-        {
-            id: 6,
-            name: 'TKN',
-            value: '',
-            type: TubeTypes.TKN
-        },
-        {
-            id: 7,
-            name: 'NH3',
-            value: '',
-            type: TubeTypes.NH3
-        },
-        {
-            id: 8,
-            name: 'TP',
-            value: '',
-            type: TubeTypes.TP
-        },{
-            id: 9,
-            name: 'PO4',
-            value: '',
-            type: TubeTypes.PO4
-        },{
-            id: 10,
-            name: 'TDS',
-            value: '',
-            type: TubeTypes.TDS
-        },{
-            id: 11,
-            name: 'Total Hardness',
-            value: '',
-            type: TubeTypes.TotalHarddness
-        },{
-            id: 12,
-            name: 'Ikalinity',
-            value: '',
-            type: TubeTypes.Ikalinity
-        },
-        {
-            id: 13,
-            name: 'ICP',
-            value: '',
-            type: TubeTypes.ICP
-        },],
-        dbId: undefined
+         tubes:[],
+         dbId: null
       };
     }
 
    async  componentDidMount() {
-    const ref = collection(firestore,"samples");
     const url = window.location.href;
     let splitUrl = url.split('/')
     let lastIndex = splitUrl.length - 2;
-    console.log(splitUrl[lastIndex])
     if(splitUrl) {
-
     let id =  splitUrl[lastIndex]
-    let querySnapshot = await getDocs(ref)
-    let newSamplesArray = []
-    querySnapshot.forEach((doc) => {
-        newSamplesArray.push({dbId: doc.id, ...doc.data()});
-    });
-    let existsInDb = newSamplesArray.find(r=>r.id == id)
-    if(existsInDb) {
-        this.setState({dbId: existsInDb.dbId})
-    if(existsInDb.tubes && existsInDb.tubes.length > 0) {
-        this.setState({tubes: existsInDb.tubes})
-    }
-    }
+    console.log(id)
+    axios.get(`http://localhost:3000/samples/${id}/tubes`).then((res) => {
+      this.setState({dbId: id, tubes: res.data.vm})
+    })
 }
     }
   
     componentWillUnmount() {
     }
     duplicateTube(tube) {
-        if(tube) {
-            console.log(tube)
-            let id = -1
-            this.state.tubes.forEach(element => {
-                if(element.id > id) {
-                    id = element.id
-                }
-            });
-        let lastTube = this.state.tubes[this.state.tubes.length -1]
-        if(lastTube) {
-            let newId = id;
-           let currentTubesArray =  this.state.tubes
-           currentTubesArray.push( {
-                id: newId,
-                name: tube.name,
-                value: 0,
-                type: tube.type
-            })
-            this.setState({tubes: currentTubesArray})
-            console.log(currentTubesArray)
-        }
-    }
+    //     if(tube) {
+    //         console.log(tube)
+    //         let id = -1
+    //         this.state.tubes.forEach(element => {
+    //             if(element.id > id) {
+    //                 id = element.id
+    //             }
+    //         });
+    //     let lastTube = this.state.tubes[this.state.tubes.length -1]
+    //     if(lastTube) {
+    //         let newId = id;
+    //        let currentTubesArray =  this.state.tubes
+    //        currentTubesArray.push( {
+    //             id: newId,
+    //             name: tube.name,
+    //             value: 0,
+    //             type: tube.type
+    //         })
+    //         this.setState({tubes: currentTubesArray})
+    //         console.log(currentTubesArray)
+    //     }
+    // }
     }
     deleteTube(tube) {
-    let updatedArray = this.state.tubes
-    if(this.state.tubes.filter(t=>t.type == tube.type).length > 1) {
-   let filter =  updatedArray.filter(x=>x.id != tube.id)
-    this.setState({tubes: filter})
-    } else {
-        alert('Cant remove last Tube')
-    }
+  //   let updatedArray = this.state.tubes
+  //   if(this.state.tubes.filter(t=>t.type == tube.type).length > 1) {
+  //  let filter =  updatedArray.filter(x=>x.id != tube.id)
+  //   this.setState({tubes: filter})
+  //   } else {
+  //       alert('Cant remove last Tube')
+  //   }
 
     }
     async handleSaving() {
-      if(this.state.dbId) {
-      const docRef = doc(firestore, "samples",  this.state.dbId)
-      console.log(docRef)
-      let tubes = this.state.tubes
-      console.log(tubes)
-      await setDoc(docRef,{tubes: tubes}, {merge: true})
+
+      let id = this.state.dbId
+      if(id){
+        axios.post(`http://localhost:3000/samples/${id}/tubes`, {tubes: this.state.tubes}).then((res) => {
+          axios.get(`http://localhost:3000/samples/${id}/tubes`).then((res) => {
+            this.setState({tubes: res.data.vm})
+        })
+      })
+      
       alert('Thank You! ')
       window.location.href = '/dashboard/samples'
-    }
+      }
+
+    
       }
 
     handleInputChange(event) {
-       let tubeIndex =  this.state.tubes.findIndex(e=>e.id == event.target.name)
+       let tubeIndex =  this.state.tubes.findIndex(e=>e.typeId == event.target.name)
       if(this.state.tubes[tubeIndex]) {
         let tubes = [...this.state.tubes]
         tubes[tubeIndex].value = event.target.value
@@ -181,14 +103,14 @@ class Tubes extends Component {
 
             <Card className='card_container'>
             <Card.Header>                        
-                <div className='tab_name'>{tube.name}</div>
+                <div className='tab_name'>{tube.typeName}</div>
             </Card.Header>
             <Card.Body>
               <blockquote className="blockquote mb-0">
-              <div key={ tube.id }>
+              <div key={ tube.typeId }>
                 <div class="mt-4 mb-2">
                     <Row><Col xs lg="1">
-                         <Form.Control step="0.01" className="input_width" size="LG" type="number" name={ tube.id }  value= {tube.value} onChange={ this.handleInputChange }  />
+                         <Form.Control step="0.01" className="input_width" size="LG" type="number" name={ tube.typeId }  value= {tube.value} onChange={ this.handleInputChange }  />
                     </Col>
                     <Col xs lg="1">
                           <Button variant="outline-primary"onClick={ () => this.duplicateTube(tube)} >Add</Button>{' '}
@@ -226,8 +148,17 @@ class Tubes extends Component {
             return 0
             }).map(this.renderInput)
             }
-            <Button onClick={() => this.handleSaving()}>Save</Button>
+            
        </div>
+       <div className='footer'>
+       <div class="form-group">
+    <label for="exampleFormControlTextarea1">Notes</label>
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+  </div>
+  <div>
+  <Button onClick={() => this.handleSaving()}>Save</Button>
+  </div>
+  </div>
        </div>
           );
         }

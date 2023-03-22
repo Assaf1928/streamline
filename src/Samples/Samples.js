@@ -7,6 +7,8 @@ import {Spots} from '../Consts/Spots'
 import { Table } from 'react-bootstrap';
 import { Button, Modal } from 'react-bootstrap'
 import CreateQR from '../Dashboard/Items/CreateQR.js';
+import axios from 'axios';
+import moment from 'moment'
 
 class Samples extends Component {
 
@@ -22,29 +24,7 @@ class Samples extends Component {
       
     }
    async  componentDidMount() {
-        const ref =  collection(firestore,"samples");
-        let querySnapshot = await getDocs(ref)
-        let newSamplesArray = []
-        querySnapshot.forEach((doc) => {
-         let docData = doc.data()
-         let spot = Spots.find(s=>s.id == docData.spotId)
-         docData ={
-            ...docData,
-            spotName: spot ? spot.name : 'Spot Not Defined'
-         }
-         console.log(docData.name)
-         docData.time = 'hii'// new Date(docData.time).toISOString().substring(0,10)
-         console.log(docData.time)
-         newSamplesArray.push(docData);
-        });
-
-        newSamplesArray.sort(function(a,b){
-         // Turn your strings into dates, and then subtract them
-         // to get a value that is either negative, positive, or zero.
-         return new Date(b.time) - new Date(a.time);
-       });
-        this.setState({samples: newSamplesArray})
-      
+        this.fetchData()
     }
 
     handleClose() {
@@ -57,7 +37,11 @@ class Samples extends Component {
       console.log(this.state.show)
     }
 
-  
+    fetchData() {
+      axios.get('http://localhost:3000/samples').then((res) => {
+          this.setState({samples: res.data.vm})
+      })
+  }
     componentWillUnmount() {
     }
   
@@ -68,12 +52,12 @@ class Samples extends Component {
       return (
          <div>
       <Table className='table_margin' striped bordered hover>        
-        <thead className='tr' ><tr><th>#</th><th>Name</th><th>Spot</th><th>Location</th><th>Temperature</th><th>Edit</th><th>Tubes</th><th>Tube QR</th></tr></thead>
+        <thead className='tr' ><tr><th>#</th><th>Name</th><th>Time</th><th>Location</th><th>Edit</th><th>Tubes</th><th>Tube QR</th></tr></thead>
         <tbody>
         {
            this.state.samples.map( (sample, i) => {
-              return <tr className='tr' key={sample.id}><td>{i}</td><td>{sample.name ? sample.name : ' Sample ' + sample.id}</td>
-              <td>{ sample.spotName}</td><td>Location</td><td>{sample.temperature}</td>
+              return <tr className='tr' key={sample.id}><td>{i + 1}</td><td>{sample.user}</td><td>{moment(sample.date).format('DD/MM/yy HH:mm')}</td>
+              <td>{sample.location}</td>
               <td><Button onClick={() => {window.location.href ="/dashboard/create-sample/" + sample.id}}>Edit</Button></td>
               <td><Button onClick={() =>  {window.location.href ="/dashboard/samples/" + sample.id + "/tubes"}}>Tubes</Button></td>
               <td><Button onClick={() => this.openDialog(sample.id)}> QR</Button>

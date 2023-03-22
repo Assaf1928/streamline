@@ -13,6 +13,7 @@ import CreateSample from './CreateSample/CreateSample'
 import Tubes from './Tubes/Tubes'
 import TubesTypes from './Tubes/TubesTypes'
 import Overview from './Overview/Overview'
+import Locations from './Locations/Locations'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import { BrowserRouter as Router,Routes, Route } from 'react-router-dom';
 
@@ -32,6 +33,7 @@ root.render(
           <Route exact path="samples/:id/tubes" element={<Tubes/>} />
           <Route path="create-sample/:id" element={<CreateSample/>}/>
           <Route exact path='tube/types' element={<TubesTypes/>}/>
+          <Route exact path='locations' element={<Locations/>}/>
           </Route>
           <Route exact path='/SampleDetails' element={< SampleDetails />}></Route>
           <Route exact path='/SampleQR' element={< SampleQR />}></Route>
