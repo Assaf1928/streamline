@@ -28,7 +28,7 @@ class TubesTypes extends Component {
     componentWillUnmount() {
     }
     fetchData() {
-        axios.get('https://streamline-back.onrender.com/tubes/types').then((res) => {
+        axios.get('http://localhost:3000/tubes/types').then((res) => {
             this.setState({types: res.data.res})
         })
     }
@@ -39,7 +39,7 @@ class TubesTypes extends Component {
         if(this.state.name) {
 
         
-        axios.post('https://streamline-back.onrender.com/tubes/types',({name: this.state.name})).then(() => {
+        axios.post('http://localhost:3000/tubes/types',({name: this.state.name})).then(() => {
             this.fetchData()
             this.setState({name: ''})
 
@@ -50,7 +50,7 @@ class TubesTypes extends Component {
       }
 
     handleDelete(id) {
-        axios.delete(`https://streamline-back.onrender.com/tubes/types/${id}`).then((res) => {
+        axios.delete(`http://localhost:3000/tubes/types/${id}`).then((res) => {
         this.fetchData()
         })
      }  

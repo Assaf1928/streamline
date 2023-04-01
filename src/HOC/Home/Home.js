@@ -16,7 +16,7 @@ function Home() {
   const HandleClick = () =>
   {
     if(register) {
-        axios.post('https://streamline-back.onrender.com/register', {email: email, password: password}).then((res) => {
+        axios.post('http://localhost:3000/register', {email: email, password: password}).then((res) => {
           alert('Registered Successful!')
           setRegister(false)
           setEmail('')
@@ -29,7 +29,7 @@ function Home() {
      else {
     console.log(password)
     console.log(email)
-      axios.post('https://streamline-back.onrender.com/login', {email: email, password: password}).then((res) => {
+      axios.post('http://localhost:3000/login', {email: email, password: password}).then((res) => {
         alert('Login Successful!')
         localStorage.setItem('user', JSON.stringify(res.data));
         window.location.href ="/dashboard/samples"

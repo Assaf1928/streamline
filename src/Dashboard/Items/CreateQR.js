@@ -97,7 +97,7 @@ function CreateQR(props) {
       //mywindow.close();
   }
   console.log(props.tube)
-  let string =  props.tube === true ? `https://streamline-back.onrender.com/dashboard/samples/${x}/tubes` : `https://streamline-back.onrender.com/dashboard/create-sample/${x}`
+  let string =  props.tube === true ? `http://localhost:3000/dashboard/samples/${x}/tubes` : `http://localhost:3000/dashboard/create-sample/${x}`
   return (
     <div className='qr_creation_container'>
    <Card className='card_cont' style={{ width: '14rem' }}>

@@ -44,12 +44,12 @@ class CreateSample extends Component {
         return
       }
       if(this.state.isUpdate && this.state.dbId) {
-        axios.put(`https://streamline-back.onrender.com/samples/${this.state.dbId}`,({locationId: this.state.locationId, note: this.state.note})).then(() => {
+        axios.put(`http://localhost:3000/samples/${this.state.dbId}`,({locationId: this.state.locationId, note: this.state.note})).then(() => {
           alert('Thank You! ')
           window.location.href = '/dashboard/samples'
         })
       } else {
-      axios.post('https://streamline-back.onrender.com/samples',({locationId: this.state.locationId, qr: this.state.id, note: this.state.note, user: this.state.user.email})).then(() => {
+      axios.post('http://localhost:3000/samples',({locationId: this.state.locationId, qr: this.state.id, note: this.state.note, user: this.state.user.email})).then(() => {
         alert('Thank You! ')
         window.location.href = '/dashboard/samples'
 
@@ -61,7 +61,7 @@ class CreateSample extends Component {
    async componentDidMount() {
     let date = this.state.time
     this.setState({timeToString: moment(date).format('DD/MM/yy HH:mm ')})
-    axios.get('https://streamline-back.onrender.com/locations').then((res) => {
+    axios.get('http://localhost:3000/locations').then((res) => {
       this.setState({locations: res.data.res})
   })
 
@@ -80,7 +80,7 @@ class CreateSample extends Component {
         if(splitUrl) {
         let id =  splitUrl[lastIndex]
         console.log(id)
-        axios.get(`https://streamline-back.onrender.com/samples/existance/${id}`).then((res) =>{
+        axios.get(`http://localhost:3000/samples/existance/${id}`).then((res) =>{
           if(res.data && res.data.sample) {
             let sample = res.data.sample
             let timeToString = moment(sample.time).format('DD/MM/yy HH:mm ')

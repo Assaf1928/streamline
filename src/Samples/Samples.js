@@ -38,7 +38,7 @@ class Samples extends Component {
     }
 
     fetchData() {
-      axios.get('https://streamline-back.onrender.com/samples').then((res) => {
+      axios.get('http://localhost:3000/samples').then((res) => {
           this.setState({samples: res.data.vm})
       })
   }

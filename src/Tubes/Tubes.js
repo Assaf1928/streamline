@@ -29,7 +29,7 @@ class Tubes extends Component {
     if(splitUrl) {
     let id =  splitUrl[lastIndex]
     console.log(id)
-    axios.get(`https://streamline-back.onrender.com/samples/${id}/tubes`).then((res) => {
+    axios.get(`http://localhost:3000/samples/${id}/tubes`).then((res) => {
     console.log(res.data.vm)
 
       this.setState({dbId: id, tubes: res.data.vm})
@@ -52,8 +52,8 @@ class Tubes extends Component {
 
       let id = this.state.dbId
       if(id){
-        axios.post(`https://streamline-back.onrender.com/samples/${id}/tubes`, {tubes: this.state.tubes}).then((res) => {
-          axios.get(`https://streamline-back.onrender.com/samples/${id}/tubes`).then((res) => {
+        axios.post(`http://localhost:3000/samples/${id}/tubes`, {tubes: this.state.tubes}).then((res) => {
+          axios.get(`http://localhost:3000/samples/${id}/tubes`).then((res) => {
             this.setState({tubes: res.data.vm})
         })
       })
