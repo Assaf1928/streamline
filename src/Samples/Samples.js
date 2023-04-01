@@ -71,8 +71,10 @@ class Samples extends Component {
         <Modal.Header closeButton>
           <Modal.Title>Create Tube QR</Modal.Title>
         </Modal.Header>
-        <Modal.Body><CreateQR tube={true}/></Modal.Body>
+        <Modal.Body><CreateQR id={this.state.id} tube={true}/></Modal.Body>
         <Modal.Footer>
+        {this.state.id}
+
           <Button variant="secondary" onClick={() => this.handleClose()}>
             Close
           </Button>

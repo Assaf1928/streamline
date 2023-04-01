@@ -9,6 +9,7 @@ import {Button, Form} from 'react-bootstrap'
 function CreateQR(props) {
   const [value, setValue] = useState(1);
   const [selectOption, setSelectOption] = useState(0)
+  console.log(props.id,'id')
   let x = props.id ? props.id : uuidv4();
   console.log(x)
  let typesArr = [{
@@ -102,6 +103,7 @@ function CreateQR(props) {
    <Card className='card_cont' style={{ width: '14rem' }}>
    <div className='qr_container' id="QR">
     <QRCodeSVG value={string} /></div><Card.Body>
+      {string}
         <Card.Title>Generate QR
         </Card.Title>
         <Card.Text>

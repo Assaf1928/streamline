@@ -30,6 +30,8 @@ class Tubes extends Component {
     let id =  splitUrl[lastIndex]
     console.log(id)
     axios.get(`http://localhost:3000/samples/${id}/tubes`).then((res) => {
+    console.log(res.data.vm)
+
       this.setState({dbId: id, tubes: res.data.vm})
     })
 }
@@ -38,38 +40,13 @@ class Tubes extends Component {
     componentWillUnmount() {
     }
     duplicateTube(tube) {
-    //     if(tube) {
-    //         console.log(tube)
-    //         let id = -1
-    //         this.state.tubes.forEach(element => {
-    //             if(element.id > id) {
-    //                 id = element.id
-    //             }
-    //         });
-    //     let lastTube = this.state.tubes[this.state.tubes.length -1]
-    //     if(lastTube) {
-    //         let newId = id;
-    //        let currentTubesArray =  this.state.tubes
-    //        currentTubesArray.push( {
-    //             id: newId,
-    //             name: tube.name,
-    //             value: 0,
-    //             type: tube.type
-    //         })
-    //         this.setState({tubes: currentTubesArray})
-    //         console.log(currentTubesArray)
-    //     }
-    // }
+      let newTubes = this.state.tubes
+      newTubes.push({...tube, value: 0, id: Math.random(0,9999)})
+      this.setState({tubes: newTubes})
     }
     deleteTube(tube) {
-  //   let updatedArray = this.state.tubes
-  //   if(this.state.tubes.filter(t=>t.type == tube.type).length > 1) {
-  //  let filter =  updatedArray.filter(x=>x.id != tube.id)
-  //   this.setState({tubes: filter})
-  //   } else {
-  //       alert('Cant remove last Tube')
-  //   }
-
+      let newTubesList = this.state.tubes.filter(t=>tube.id !== t.id)
+      this.setState({tubes: newTubesList})
     }
     async handleSaving() {
 
@@ -89,7 +66,7 @@ class Tubes extends Component {
       }
 
     handleInputChange(event) {
-       let tubeIndex =  this.state.tubes.findIndex(e=>e.typeId == event.target.name)
+       let tubeIndex =  this.state.tubes.findIndex(e=>e.id == event.target.name)
       if(this.state.tubes[tubeIndex]) {
         let tubes = [...this.state.tubes]
         tubes[tubeIndex].value = event.target.value
@@ -110,7 +87,7 @@ class Tubes extends Component {
               <div key={ tube.typeId }>
                 <div class="mt-4 mb-2">
                     <Row><Col xs lg="1">
-                         <Form.Control step="0.01" className="input_width" size="LG" type="number" name={ tube.typeId }  value= {tube.value} onChange={ this.handleInputChange }  />
+                         <Form.Control step="0.01" className="input_width" size="LG" type="number" name={ tube.id }  value= {tube.value} onChange={ this.handleInputChange }  />
                     </Col>
                     <Col xs lg="1">
                           <Button variant="outline-primary"onClick={ () => this.duplicateTube(tube)} >Add</Button>{' '}

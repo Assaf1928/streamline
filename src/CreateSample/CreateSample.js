@@ -39,6 +39,10 @@ class CreateSample extends Component {
         });
       }
     async handleSaving() {
+      if(this.state.locationId == 0) {
+        alert('you must fill all fields')
+        return
+      }
       if(this.state.isUpdate && this.state.dbId) {
         axios.put(`http://localhost:3000/samples/${this.state.dbId}`,({locationId: this.state.locationId, note: this.state.note})).then(() => {
           alert('Thank You! ')

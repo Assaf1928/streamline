@@ -11,11 +11,16 @@ class Overview extends Component {
       super(props);
       this.handleChange = this.handleChange.bind(this);
       this.handleSpotChange = this.handleSpotChange.bind(this);
+      this.changeFromDate = this.changeFromDate.bind(this);
+      this.changeToDate = this.changeToDate.bind(this);
+
       this.state = {
         locationId: 0,
         locations: [],
         tubeTypes: [],
-        tubeTypeId: 1,
+        toDate: null,
+        fromDate: null,
+        tubeTypeId: 0,
         data: [
 
           ],
@@ -28,57 +33,34 @@ class Overview extends Component {
     }
   
    async orginaizeData() {
-
-    axios.get('http://localhost:3000/tubes/types').then((res) => {
-      this.setState({tubeTypes: res.data.res})
-  })
-
-  axios.get('http://localhost:3000/locations').then((res) => {
-            this.setState({locations: res.data.res})
-        })
-
+console.log(this.state.locationId)
+console.log(this.state.tubeTypeId)
+    if(this.state.locationId == 0 || this.state.tubeTypeId == 0 || this.state.toDate == null || this.state.fromDate == null) {
+      return
+    }
+console.log('im here')
       let newArray = [];
       newArray.push(["Date","Value"])
       var startFrom = new Date();
-      startFrom.setDate(startFrom.getDate()-8);
-
-      startFrom.setDate(startFrom.getDate() - 3)
-      for(let i = 0; i < 8; i++) {
-        var date = new Date();
-        date.setDate(startFrom.getDate()+i);
-        let indexCount = 0;
-        let count = 0;
-      //   newSamplesArray.forEach(sample => {
-      //     date.setHours(0,0,0,0)
-      //     let sampleDate =new Date(sample.time)
-      //     sampleDate.setHours(0,0,0,0)
-      //  //   console.log('sampleDate' + sampleDate, 'date' + date)
-      //    // console.log(sampleDate.getTime() == date.getTime())
-
-      //     if(sampleDate.getTime() == date.getTime()) {
-      //       if(sample.tubes) {
-      //       let BOD = this.state.tubeFilter
-      //       let bodTubes =   sample.tubes.filter(t=>t.type == BOD)
-      //       bodTubes.forEach(m=> {
-      //         if(m.value) {
-      //           count += parseInt(m.value) 
-      //           indexCount++;
-      //         }
-      //       })
-      //       }
-      //     }
-      //   });
-        let strDate = date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-        console.log(date)
-        console.log(strDate)
-      let x =  Math.floor(Math.random() * 10)
-        newArray.push([strDate,x])
+      axios.get(`http://localhost:3000/overview/tubes/${this.state.locationId}/${this.state.tubeTypeId}/${this.state.fromDate}/${this.state.toDate}`).then((res)=> {
+        res.data.forEach(e => {
+          newArray.push([e.date,e.value])
+        })
+        console.log('RESULT')
+      
+        this.setState({data: newArray})
         
-      }
-      this.setState({data: newArray})
+      })
     }
 
     async componentDidMount() {
+    await  axios.get('http://localhost:3000/tubes/types').then((res) => {
+        this.setState({tubeTypes: res.data.res})
+    })
+  
+    await axios.get('http://localhost:3000/locations').then((res) => {
+              this.setState({locations: res.data.res})
+          })
         await this.orginaizeData()
 
       // 14 Date 
@@ -94,16 +76,49 @@ class Overview extends Component {
     
     async HandleTubeType(event) {
       if(event && event.target && event.target.value) {
+        new Promise((resolve) => {
       this.setState({tubeTypeId: event.target.value})
+      resolve()
+    }).then(async () => {
       await this.orginaizeData()
-      }
+    })
+  }
     }
     async handleSpotChange(event) {
+
       if(event && event.target && event.target.value) {
+        new Promise((resolve) => {
       this.setState({locationId: event.target.value})
+      resolve()
+
+    }).then(async () => {
       await this.orginaizeData()
-      }
+    })
+  }
     }
+    async changeFromDate(event) {
+      if(event && event.target && event.target.value) {
+        new Promise((resolve) => {
+      this.setState({fromDate: event.target.value})
+      resolve()
+
+    }).then(async () => {
+      await this.orginaizeData()
+    })
+    } 
+  }
+
+    async changeToDate(event) {
+      if(event && event.target && event.target.value) {
+        new Promise((resolve) => {
+      this.setState({toDate: event.target.value})
+      resolve()
+
+    }).then(async () => {
+      await this.orginaizeData()
+    })
+  }
+    } 
    async handleChange(event) {
     if(event && event.target && event.target.value) {
 
@@ -147,10 +162,10 @@ if(this.state.tubeTypes && this.state.tubeTypes.length > 0) {
          <div className='date_containers'>
           <div>
           <div>From</div>
-         <input type="date" onChange={() => this.orginaizeData()}  ></input>
+         <input type="date" onChange={(e) => this.changeFromDate(e)}  ></input>
          </div>
          <div>
-         <div>To</div><div><input onChange={() => this.orginaizeData()} type="date"></input></div>
+         <div>To</div><div><input onChange={(e) => this.changeToDate(e)} type="date"></input></div>
          </div>
          </div>
          <div>
