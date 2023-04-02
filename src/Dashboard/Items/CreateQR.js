@@ -97,7 +97,7 @@ function CreateQR(props) {
       //mywindow.close();
   }
   console.log(props.tube)
-  let string =  props.tube === true ? `https://streamline-back.onrender.com/dashboard/samples/${x}/tubes` : `https://streamline-back.onrender.com/dashboard/create-sample/${x}`
+  let string =  props.tube === true ? `https://sreamline.netlify.app/dashboard/samples/${x}/tubes` : `https://sreamline.netlify.app/dashboard/create-sample/${x}`
   return (
     <div className='qr_creation_container'>
    <Card className='card_cont' style={{ width: '14rem' }}>
