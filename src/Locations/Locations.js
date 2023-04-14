@@ -2,8 +2,8 @@ import React from 'react'
 import  { Component }  from 'react';
 import {Table, Button, Container} from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
-
 import axios from 'axios'
+import './Locations.css';
 
 
 
@@ -57,14 +57,17 @@ class Locations extends Component {
   
     
      renderTr = (location, i) => {
-        return(<tr><td>{location.id}</td><td>{location.name}</td><td><Button onClick={() => this.handleDelete(location.id)}> Delete </Button></td></tr>)
+        return(<tr><td>{i + 1}</td><td>{location.name}</td>
+        <td>-</td>
+        {/* <td><Button onClick={() => this.handleDelete(location.id)}> Delete </Button></td> */}
+        </tr>)
     }
 
     render() {
 
         return (
-            <div>
-            <div class="title">Locations</div>
+            <div style={{textAlign: 'center'}}>
+            <div class="locations_title">Locations</div>
 
 
             <Table striped bordered hover>

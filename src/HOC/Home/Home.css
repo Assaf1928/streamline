@@ -1,28 +1,45 @@
-.App {
-  height: 60vh;
-  width: 80vw;
-  margin: 0 auto;
-  margin-top: 200px;
-  border: 2px solid black;
-  
-}
+
 .stream_line_logo {
   position: absolute;
-  min-width: 500px;
-  min-height: 500px;
-  left: 100px
+  min-width: 30vw;
+  min-height: 30vw;
+  left: 10vw;
+  top: 5vw
 
 }
 .input_containers {
   background-color:#006e8c;
   position: relative;
+  width: 50vw !important;
+}
+.text_header {
+  color: #006e8c !important;
+  font-size: 30px;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 100px;
 }
 .btn_login {
   text-align: center;
-  margin: 0 auto
+  margin: 0 auto;
+  background-color: #006e8c !important;
+  padding: 5px 20px !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: 0px 1px 3px 0px black !important
+
+}
+.input_home{
+  border: none !important;
+  border-radius: 0 !important;
+  border-bottom: 1px solid black !important;
+}
+.input_home:focus {
+  box-shadow: none !important;
 }
 .col_inputs {
   margin-top: 300px !important;
+  margin: 0 auto;
 }
 .welcome{
   color: black !important;
@@ -33,4 +50,24 @@
 .row_height {
   height: 80vh;
 
+}
+.ct {
+  display:  flex;
+  flex-direction: row;
+  height: 99vh !important;
+
+}
+.cursor {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+@media only screen and (max-width: 600px) {
+.ct {
+  flex-direction: column;
+  max-width: 70vw;
+  margin: 0 auto
+}
+.input_containers {
+}
 }

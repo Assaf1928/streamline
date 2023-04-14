@@ -132,7 +132,7 @@ class CreateSample extends Component {
             </div>
            <div>Note</div>
             <div>
-            <Form.Control name="note" value={this.state.note} onChange={(e) => this.handleInputChange(e)} />
+            <Form.Control  as="textarea" name="note"  value={this.state.note} onChange={(e) => this.handleInputChange(e)} />
            </div> 
            <div><Button type="button" onClick={() => this.handleSaving()}>{this.state.isUpdate ? 'Update' : 'Create'}</Button></div>
         </div>

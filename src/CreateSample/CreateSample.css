@@ -11,7 +11,7 @@
 }
 .column {display: flex;
 flex-direction: row;
-margin-left: 300px;
+margin-left: 200px;
 margin-top: 100px;}
 .create_title {
     font-weight: bold;
@@ -41,4 +41,16 @@ margin-top: 100px;}
     color :black;
     width: 450px;
     margin-top: 20px;
+}
+
+@media only screen and (max-width: 600px) {
+    .column {
+        flex-direction: column;
+        text-align: center;
+        margin: 0 auto !important;
+
+    }
+    .form_container {
+        width: 300px !important
+    }
 }

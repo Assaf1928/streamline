@@ -15,6 +15,7 @@ import TubesTypes from './Tubes/TubesTypes'
 import Overview from './Overview/Overview'
 import Locations from './Locations/Locations'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
+import Scan from './Scan/Scan'
 import { BrowserRouter as Router,Routes, Route } from 'react-router-dom';
 
 
@@ -24,6 +25,7 @@ root.render(
     <Routes>
         
           <Route exact path='/' element={< Home />}></Route>
+          <Route exact path='/scan' element= {<Scan />}></Route>
           <Route exact path="/samples/:id/tubes" element={<Tubes/>} />
           <Route path="create-sample/:id" element={<CreateSample/>}/>
           <Route  path="/dashboard" element={<Dashboard/>}>

@@ -57,14 +57,17 @@ class TubesTypes extends Component {
   
     
      renderTr = (type, i) => {
-        return(<tr><td>{type.id}</td><td>{type.name}</td><td><Button onClick={() => this.handleDelete(type.id)}> Delete </Button></td></tr>)
+        return(<tr><td>{i + 1}</td><td>{type.name}</td>
+        {/* <td><Button onClick={() => this.handleDelete(type.id)}> Delete </Button></td> */}
+        <td>-</td>
+        </tr>)
     }
 
     render() {
 
         return (
-            <div>
-            <div class="title">Types</div>
+          <div style={{textAlign: 'center'}}>
+          <div class="title">Types</div>
 
 
             <Table striped bordered hover>
@@ -77,7 +80,9 @@ class TubesTypes extends Component {
       </thead>
       <tbody>
             {this.state.types.map(this.renderTr)}
-            <tr><td></td><td><Form.Control value={this.state.name}  onChange={e => this.setAddInput(e.target.value)}/></td><td><Button onClick={() => this.handleAdd()}>Add</Button></td></tr>
+            <tr><td></td><td><Form.Control value={this.state.name}  onChange={e => this.setAddInput(e.target.value)}/></td>
+            <td><Button onClick={() => this.handleAdd()}>Add</Button></td>
+            </tr>
       </tbody>
     </Table>
 

@@ -1,5 +1,4 @@
 import React from 'react'
-import { FaPlusCircle  } from 'react-icons/fa';
 import './Home.css';
 import StreamLineLogo from '../../images/stream_line.png';
 import Form from 'react-bootstrap/Form';
@@ -42,37 +41,41 @@ function Home() {
   }
 
   return (
-      <Container>
-    <Row className='row_height'>
-      <Col className='input_containers'>
-        <img src={StreamLineLogo} className="stream_line_logo"/></Col>
-      <Col className='col_inputs'>
-      <div className='welcome'> Welcome To Streamline! Don't have a user? <span onClick={() => setRegister(true)}> Register</span> Here</div>
+    <div className='ct'>
+      <div className='input_containers'>
+        <img src={StreamLineLogo} className="stream_line_logo"/></div>
+      <div className='col_inputs'>
+      <div className='text_header'>{ register ? 'Register' : 'Login'}</div>
+
       <InputGroup className="mb-3">
-        <InputGroup.Text  id="basic-addon1">Email</InputGroup.Text>
         <Form.Control
+          placeholder="Email"
           aria-label="Email"
+          className='input_home'
           value={email}
           onChange={e => setEmail(e.target.value)}
           aria-describedby="basic-addon1"
         />
       </InputGroup>
       <InputGroup className="mb-3">
-        <InputGroup.Text  id="basic-addon1">Password</InputGroup.Text>
         <Form.Control
+          placeholder="Password"
           aria-label="password"
           value={password}
+          className='input_home'
           aria-describedby="basic-addon1"
           onChange={e => setPassword(e.target.value)}
           type="password"
         />
       </InputGroup>
+      <InputGroup className='mb-3'>
+      <div> Welcome To Streamline! Don't have a user? <span className='cursor' onClick={() => setRegister(true)}> Register</span> Here</div>
+      </InputGroup>
       <InputGroup className="mb-3">
-       <Button onClick={() => HandleClick()} className='btn_login'> { register ? 'Register' : 'Login'}</Button>
-      </InputGroup></Col>
-    </Row>
+       <Button  onClick={() => HandleClick()} className='btn_login'> { register ? 'Register' : 'Login'}</Button>
+      </InputGroup></div>
+      </div>
 
-    </Container>
   );
 }
 
