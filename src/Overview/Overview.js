@@ -42,7 +42,7 @@ console.log('im here')
       let newArray = [];
       newArray.push(["Date","Value"])
       var startFrom = new Date();
-      axios.get(`http://localhost:3000/overview/tubes/${this.state.locationId}/${this.state.tubeTypeId}/${this.state.fromDate}/${this.state.toDate}`).then((res)=> {
+      axios.get(`https://streamline-back.onrender.com/overview/tubes/${this.state.locationId}/${this.state.tubeTypeId}/${this.state.fromDate}/${this.state.toDate}`).then((res)=> {
         res.data.forEach(e => {
           newArray.push([e.date,e.value])
         })
@@ -54,11 +54,11 @@ console.log('im here')
     }
 
     async componentDidMount() {
-    await  axios.get('http://localhost:3000/tubes/types').then((res) => {
+    await  axios.get('https://streamline-back.onrender.com/tubes/types').then((res) => {
         this.setState({tubeTypes: res.data.res})
     })
   
-    await axios.get('http://localhost:3000/locations').then((res) => {
+    await axios.get('https://streamline-back.onrender.com/locations').then((res) => {
               this.setState({locations: res.data.res})
           })
         await this.orginaizeData()
