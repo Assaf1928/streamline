@@ -6,6 +6,7 @@ import {Col, Nav, Row, Tab} from 'react-bootstrap';
 import StreamLineLogo from '../images/stream_line.png';
 import {AiFillHome, AiFillFileAdd} from 'react-icons/ai'
 import {GiDrippingTube} from 'react-icons/all'
+import axios from 'axios';
 
 
 import moment from 'moment'
@@ -85,16 +86,20 @@ class Dashbaord extends Component {
     }
      getLocation() {
       if (navigator.geolocation) {
-      // let x =  navigator.geolocation.getCurrentPosition();
-     //  console.log(x)
+       let x =  navigator.geolocation.getCurrentPosition(this.showPosition);
+       console.log(x)
       } else { 
       alert("Geolocation is not supported by this browser.");
       }
     }
     
      showPosition(position) {
-    console.log( "Latitude: " + position.coords.latitude + 
-      "<br>Longitude: " + position.coords.longitude)
+      console.log(position)
+      let key = '8074823d4a0695d0cfaaa796dd6985dd'
+      axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&appid=${key}`).then((res) => {
+        console.log(res)
+      })
+
     }
   
     handleChange(x) {
