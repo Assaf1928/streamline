@@ -61,6 +61,7 @@ class Dashbaord extends Component {
     }
   
     componentDidMount() {
+      this.getLocation()
       // Subscribe to changes
       let d = new Date()
       let formattedDate = moment(d).format('MM/DD/YYYY')
@@ -81,6 +82,19 @@ class Dashbaord extends Component {
     }
     componentWillUnmount() {
       // Clean up listener
+    }
+     getLocation() {
+      if (navigator.geolocation) {
+      // let x =  navigator.geolocation.getCurrentPosition();
+     //  console.log(x)
+      } else { 
+      alert("Geolocation is not supported by this browser.");
+      }
+    }
+    
+     showPosition(position) {
+    console.log( "Latitude: " + position.coords.latitude + 
+      "<br>Longitude: " + position.coords.longitude)
     }
   
     handleChange(x) {

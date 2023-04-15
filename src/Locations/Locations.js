@@ -28,7 +28,7 @@ class Locations extends Component {
     componentWillUnmount() {
     }
     fetchData() {
-        axios.get('https://streamline-back.onrender.com/locations').then((res) => {
+        axios.get(`${process.env.REACT_APP_BACKEND_ROUTE}/locations`).then((res) => {
             this.setState({locations: res.data.res})
         })
     }
@@ -39,7 +39,7 @@ class Locations extends Component {
         if(this.state.name) {
 
         
-        axios.post('https://streamline-back.onrender.com/locations',({name: this.state.name})).then(() => {
+        axios.post(`${process.env.REACT_APP_BACKEND_ROUTE}/locations`,({name: this.state.name})).then(() => {
             this.fetchData()
             this.setState({name: ''})
 
@@ -50,7 +50,7 @@ class Locations extends Component {
       }
 
     handleDelete(id) {
-        axios.delete(`https://streamline-back.onrender.com/locations/${id}`).then((res) => {
+        axios.delete(`${process.env.REACT_APP_BACKEND_ROUTE}/locations/${id}`).then((res) => {
         this.fetchData()
         })
      }  
