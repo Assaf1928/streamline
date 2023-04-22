@@ -121,7 +121,7 @@ class CreateSample extends Component {
            <div>QR Code</div>
             <div> <Form.Control value={this.state.id} disabled /></div>
             <div>name</div>
-            <div><Form.Control disabled onChange={(e) => this.handleInputChange(e)} name="name" value={this.state.user ? this.state.user.email : ''}/></div>
+            <div><Form.Control disabled onChange={(e) => this.handleInputChange(e)} name="name" value={this.state.user ? this.state.user.name : ''}/></div>
             <div>
             <div>Location</div>
             {select}

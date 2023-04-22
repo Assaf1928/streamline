@@ -79,12 +79,16 @@
  .welcome {
     font-weight: 300;
     text-decoration: wavy;
-    width: 100px;
+    width: 200px;
+    flex-direction: row;
+    display: flex;
     top: 10px;
     position: absolute;
     color: white;
     cursor: pointer;
     font-size: 26px;
+ }
+ .welcome div {
  }
  .navbar_ct div {
    cursor: pointer;

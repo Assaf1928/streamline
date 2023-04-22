@@ -9,15 +9,18 @@ import { useState } from 'react';
 function Home() {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+
   const [register,setRegister] = useState(false);
   const HandleClick = () =>
   {
     if(register) {
-        axios.post(`${process.env.REACT_APP_BACKEND_ROUTE}/register`, {email: email, password: password}).then((res) => {
+        axios.post(`${process.env.REACT_APP_BACKEND_ROUTE}/register`, {email: email, password: password, name: name}).then((res) => {
           alert('Registered Successful!')
           setRegister(false)
           setEmail('')
           setPassword('')
+          setName('')
         }).catch((e) => {
           alert('Something went wrong')
           localStorage.removeItem('user')
@@ -51,6 +54,18 @@ function Home() {
           value={email}
           onChange={e => setEmail(e.target.value)}
           aria-describedby="basic-addon1"
+        />
+      </InputGroup>
+      
+      <InputGroup style={{display: register ? '': 'none'}} className="mb-3">
+        <Form.Control
+          placeholder="Name"
+          aria-label="Name"
+          value={name}
+          className='input_home'
+          aria-describedby="basic-addon1"
+          onChange={e => setName(e.target.value)}
+          type="text"
         />
       </InputGroup>
       <InputGroup className="mb-3">

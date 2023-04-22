@@ -5,9 +5,10 @@ import { Link, Outlet } from "react-router-dom";
 import {Col, Nav, Row, Tab} from 'react-bootstrap';
 import StreamLineLogo from '../images/stream_line.png';
 import {AiFillHome, AiFillFileAdd} from 'react-icons/ai'
-import {GiDrippingTube} from 'react-icons/all'
+import {GiConsoleController, GiDrippingTube} from 'react-icons/all'
 import axios from 'axios';
-
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
 
 import moment from 'moment'
 class Dashbaord extends Component {
@@ -15,10 +16,13 @@ class Dashbaord extends Component {
       super(props);
       this.handleChange = this.handleChange.bind(this);
       this.Logout = this.Logout.bind(this);
+      this.showPosition = this.showPosition.bind(this)
 
       this.state = {
         user: null,
         date: '',
+        temperature: '',
+        temperatureText: '',
         items: [{
             id:1,
             name: "Overview",
@@ -94,10 +98,13 @@ class Dashbaord extends Component {
     }
     
      showPosition(position) {
-      console.log(position)
       let key = '8074823d4a0695d0cfaaa796dd6985dd'
-      axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&appid=${key}`).then((res) => {
-        console.log(res)
+      axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&appid=${key}&units=metric`).then((res) => {
+      let text = `Temperature is ${res.data.main.temp} but feels like ${res.data.main.feels_like}.
+      the humidity is ${res.data.main.humidity}.`
+
+      console.log(res.data)
+      this.setState({temperature: res.data.main.temp, temperatureText: text })
       })
 
     }
@@ -107,6 +114,15 @@ class Dashbaord extends Component {
     }
   
     render() {
+
+      const popover = (
+        <Popover id="popover-basic">
+    <Popover.Header as="h3">Temperature</Popover.Header>
+    <Popover.Body>
+     {this.state.temperatureText}
+    </Popover.Body>
+    </Popover>
+      )
       return (
       <Row className='row_limit'>
         
@@ -130,8 +146,10 @@ class Dashbaord extends Component {
   
        </Col>
         <Col sm={9}>
-        <div className='navbar'><div><span>Welcome, {this.state && this.state.user ? this.state.user.email : ''}</span> </div>
-          <div > { this.state.user ?  <div className='welcome'> {this.state.date}  </div>  : ''} </div>
+        <div className='navbar'><div style={{marginTop: '10px'}}><span>Welcome, {this.state && this.state.user ? this.state.user.name : ''}</span> </div>
+          <div > { this.state.user ?  <div className='welcome'>
+          <OverlayTrigger trigger="click" placement="right" overlay={popover}><div>{this.state.temperature} </div></OverlayTrigger> <div><span>&#8451;</span></div>
+             <div style={{marginLeft: '60px'}}> {this.state.date}</div> </div>  : ''} </div>
 
           </div>
         <Outlet/>

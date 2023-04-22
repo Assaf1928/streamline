@@ -23,6 +23,25 @@
     margin-top: 20px;
     margin-bottom: 20px;
 }
+.sample_details {
+    background-color: #006e8c;
+    width: 700px;
+    height: 100px;
+    text-align: center;
+    padding: 5px;
+    margin-top: 50px;
+    border-radius: 50px;
+    color: white;
+}
+
+.sample_ct_details {
+    width: 600px;
+    margin:0 auto;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
 .footer {
     text-align: center;
     margin: 0 auto
