@@ -22,6 +22,7 @@ class Dashbaord extends Component {
         user: null,
         date: '',
         temperature: '',
+        icon: '',
         temperatureText: '',
         items: [{
             id:1,
@@ -69,7 +70,7 @@ class Dashbaord extends Component {
       this.getLocation()
       // Subscribe to changes
       let d = new Date()
-      let formattedDate = moment(d).format('MM/DD/YYYY')
+      let formattedDate = moment(d).format('DD/MM/YYYY')
       this.setState({date: formattedDate})
       let user = localStorage.getItem('user')
       console.log(user)
@@ -77,9 +78,7 @@ class Dashbaord extends Component {
         this.setState({user: JSON.parse(user)})
       } else {
         window.location.href = '/'
-
-      }
-      
+      } 
     }
     Logout () {
       localStorage.removeItem('user')
@@ -104,7 +103,7 @@ class Dashbaord extends Component {
       the humidity is ${res.data.main.humidity}.`
 
       console.log(res.data)
-      this.setState({temperature: res.data.main.temp, temperatureText: text })
+      this.setState({temperature: res.data.main.temp, temperatureText: text, icon: res.data.weather[0].icon })
       })
 
     }
@@ -125,32 +124,21 @@ class Dashbaord extends Component {
       )
       return (
       <Row className='row_limit'>
-        
-        <Col className="col_ct" sm={2}   style={{ display: 'flex', textAlign: 'center' }}>
-          <div className='navbar_ct'>
-      <div>
-        <img src={StreamLineLogo} className="dashboard_logo"/>
-        </div>
-  {this.state.items.map((navitem) => (
-              <div className='tab_ct'><div className='icon_ct'>{navitem.icon}</div>
-              <div className='tab_route' 
-                    onClick={() => this.handleChange(navitem.route)} 
-                    href={navitem.route}> 
-                     {navitem.name}</div>
-                     </div>
-          ))}  
+        <Col className="col_ct" sm={4}   style={{ display: 'flex', textAlign: 'center' }}>
+          <div className='navbar_ct'><div>
+        <img src={StreamLineLogo} className="dashboard_logo"/></div>
+        {this.state.items.map((navitem) => (
+        <div className='tab_ct'><div className='icon_ct'>{navitem.icon}</div><div className='tab_route' onClick={() => this.handleChange(navitem.route)} href={navitem.route}> {navitem.name}</div> </div> ))}  
           <hr style={{color: 'white'}}/>
           <div style={{color: 'white'}}>Settings</div>
-          <div onClick={() => this.Logout()} style={{color: 'white'}}>Log out</div>
-  </div>
-  
+          <div onClick={() => this.Logout()} style={{color: 'white'}}>Log out</div></div>
        </Col>
-        <Col sm={9}>
+        <Col sm={7}>
         <div className='navbar'><div style={{marginTop: '10px'}}><span>Welcome, {this.state && this.state.user ? this.state.user.name : ''}</span> </div>
           <div > { this.state.user ?  <div className='welcome'>
-          <OverlayTrigger trigger="click" placement="right" overlay={popover}><div>{this.state.temperature} </div></OverlayTrigger> <div><span>&#8451;</span></div>
-             <div style={{marginLeft: '60px'}}> {this.state.date}</div> </div>  : ''} </div>
-
+          <OverlayTrigger trigger="click" placement="left" overlay={popover}><div>{this.state.temperature} </div></OverlayTrigger> <div><span>&#8451;</span>
+         </div><div> <img style={{maxWidth: '50px', maxHeight: '50px'}} src={`https://openweathermap.org/img/wn/${this.state.icon}@2x.png`}></img></div>
+          <div style={{marginLeft: '60px'}}> {this.state.date}</div> </div>  : ''} </div>
           </div>
         <Outlet/>
         </Col>
