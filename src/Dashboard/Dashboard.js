@@ -23,6 +23,7 @@ class Dashbaord extends Component {
       user: null,
       date: '',
       temperature: '',
+      icon: '',
       temperatureText: '',
       items: [{
         id: 0,

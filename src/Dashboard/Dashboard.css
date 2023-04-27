@@ -41,16 +41,16 @@
 .outlet_container {
    margin-left: 250px;
 }
+
  .navbar {
     background-color:  white;
     color: #006e8c;
-    width: 800px !important;
     margin-left: 20px;
     position: relative;
+    width: 70%;
  }
 
  .navbar span {
-    margin-left: 20px; 
     font-size: 20px;
  }
  .tab_route {
