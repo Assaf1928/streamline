@@ -1,0 +1,20 @@
+div {
+    margin-bottom: 10px;
+}
+
+.wrraper-calendar {
+    width: 100%;
+    display: block;
+}
+
+.react-calendar {
+    width: 100%;
+}
+
+.link {
+    background-color: gray;
+    padding: 10px;
+    margin-right: 10px;
+    text-decoration: none;
+    color: black;
+}
