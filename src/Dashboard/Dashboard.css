@@ -104,6 +104,14 @@
    flex-direction: row;
    position: relative
  }
+ .nostyle {
+   text-decoration: none;
+ }
+ .selected {
+   background-color: #004e63;
+    font-weight: bold;
+    border-radius: 20px;
+ }
  .navbar_ct {
    display: flex;
    flex-direction: column;

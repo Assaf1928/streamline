@@ -5,7 +5,7 @@ import { Link, Outlet } from "react-router-dom";
 import { Col, Nav, Row, Tab } from 'react-bootstrap';
 import StreamLineLogo from '../images/stream_line.png';
 import { AiFillHome, AiFillFileAdd } from 'react-icons/ai'
-import { FaHome } from 'react-icons/fa'
+import { FaHome, FaFlask, FaMapMarkerAlt} from 'react-icons/fa'
 import { GiConsoleController, GiDrippingTube } from 'react-icons/all'
 import axios from 'axios';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
@@ -25,6 +25,7 @@ class Dashbaord extends Component {
       temperature: '',
       icon: '',
       temperatureText: '',
+      selectedItemId: 0,
       items: [{
         id: 0,
         name: "Home",
@@ -48,7 +49,9 @@ class Dashbaord extends Component {
         id: 3,
         name: "Samples",
         route: "/dashboard/samples",
-        icon: <AiFillFileAdd />
+        icon: <FaFlask />
+
+        // <AiFillFileAdd /> this icon should be on add report label
 
       },
       {
@@ -62,15 +65,15 @@ class Dashbaord extends Component {
         id: 5,
         name: "Locations",
         route: '/dashboard/locations',
-        icon: ""
+        icon: <FaMapMarkerAlt />
 
       },
       {
         id: 6,
-        name: "Tube Types",
+        name: "Add Report",
         route: '/dashboard/tube/types',
-        icon: <GiDrippingTube />
-
+        icon: <AiFillFileAdd />
+        // <GiDrippingTube />
       }]
     };
   }
@@ -119,8 +122,9 @@ class Dashbaord extends Component {
 
   }
 
-  handleChange(x) {
-    window.location.href = x
+  handleChange(itemId) {
+    // update the currect selected nav item
+    this.setState({ selectedItemId: itemId })
   }
 
   render() {
@@ -142,12 +146,14 @@ class Dashbaord extends Component {
               <img src={StreamLineLogo} className="dashboard_logo" />
             </div>
             {this.state.items.map((navitem) => (
-              <div className='tab_ct'><div className='icon_ct'>{navitem.icon}</div>
-                <div className='tab_route'
-                  onClick={() => this.handleChange(navitem.route)}
-                  href={navitem.route}>
-                  {navitem.name}</div>
-              </div>
+              <Link  className='nostyle' to={navitem.route}>
+                <div className='tab_ct'><div className='icon_ct'>{navitem.icon}</div>
+                  <div className={this.state.selectedItemId == navitem.id ? 'tab_route selected' : 'tab_route'}
+                    onClick={() => this.handleChange(navitem.id)}>
+                    {navitem.name}
+                  </div>
+                </div>
+              </Link>
             ))}
             <hr style={{ color: 'white' }} />
             <div style={{ color: 'white' }}>Settings</div>
