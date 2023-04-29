@@ -9,9 +9,9 @@ import { useState } from 'react';
 import Alert from '@mui/material/Alert';
 
 function Home() {
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState(null);
   const [email, setEmail] = useState({ data: '', error: '' });
-  const [name, setName] = useState('');
+  const [name, setName] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [register, setRegister] = useState(false);
   const [validated, setValidated] = useState(false);
@@ -34,8 +34,8 @@ function Home() {
               setHasRegistered(false)
               setRegister(false)
               setEmail({ data: '', error: '' })
-              setPassword('')
-              setName('')
+              setPassword(null)
+              setName(null)
             }, 1500);
 
           }).catch((e) => {
@@ -66,7 +66,7 @@ function Home() {
         <img src={StreamLineLogo} className="stream_line_logo" /></div>
       <div className='col_inputs'>
         <div className='text_header'>{register ? 'Register' : 'Login'}</div>
-        <Form noValidate validated={validated} onSubmit={HandleClick}>
+        <Form noValidate validated={validated} onSubmit={() => HandleClick()}>
           <InputGroup className="mb-3">
             <Form.Control
               placeholder="Email"
@@ -118,10 +118,10 @@ function Home() {
           {register && hasRegistered && <Alert severity="success">Registered Succeeded</Alert>}
           {errorMessage && <span className='error_message'>{errorMessage}</span>}
           <InputGroup className='mb-3'>
-            <div> Welcome To Streamline! Don't have a user? <span className='cursor' onClick={() => { setRegister(true); setEmail({ data: '', error: '' }); setPassword(''); }}> Register</span> Here</div>
+            <div> Welcome To Streamline! Don't have a user? <span className='cursor' onClick={() => { setRegister(true); setEmail({ data: '', error: '' }); setPassword(null); }}> Register</span> Here</div>
           </InputGroup>
           <InputGroup className="mb-3">
-            <Button type='submit' onSubmit={HandleClick} className='btn_login'> {register ? 'Register' : 'Login'}</Button>
+            <Button type='submit' onSubmit={() => HandleClick()} className='btn_login'> {register ? 'Register' : 'Login'}</Button>
           </InputGroup>
         </Form>
       </div>
