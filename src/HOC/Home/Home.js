@@ -49,13 +49,13 @@ function Home() {
     }
     else {
       axios.post(`${process.env.REACT_APP_BACKEND_ROUTE}/login`, { email: email.data, password: password }).then((res) => {
-        alert('Login Successful!')
+        alert('Login Successful!')        
         localStorage.setItem('user', JSON.stringify(res.data));
         window.location.href = "/dashboard/home"
 
       }).catch((e) => {
         setErrorMessage('Incorrect username or password')
-        // alert('Wrong Password Or Email ! Try Again')
+        alert('Wrong Password Or Email ! Try Again')
         localStorage.removeItem('user')
       });
     }
@@ -122,7 +122,7 @@ function Home() {
             <div> Welcome To Streamline! Don't have a user? <span className='cursor' onClick={() => { setRegister(true); setEmail({ data: '', error: '' }); setPassword(null); }}> Register</span> Here</div>
           </InputGroup>
           <InputGroup className="mb-3">
-            <Button type='submit' onSubmit={() => HandleClick()} className='btn_login'> {register ? 'Register' : 'Login'}</Button>
+            <Button type='submit' onSubmit={(e) => HandleClick(e)} className='btn_login'> {register ? 'Register' : 'Login'}</Button>
           </InputGroup>
         </Form>
       </div>
