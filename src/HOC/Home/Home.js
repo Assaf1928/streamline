@@ -19,6 +19,7 @@ function Home() {
 
   const HandleClick = (event) => {
     event.preventDefault();
+    alert('hi')
     if (register) {
       const form = event.target;
       if (!form.checkValidity()) {
@@ -66,7 +67,7 @@ function Home() {
         <img src={StreamLineLogo} className="stream_line_logo" /></div>
       <div className='col_inputs'>
         <div className='text_header'>{register ? 'Register' : 'Login'}</div>
-        <Form noValidate validated={validated} onSubmit={() => HandleClick()}>
+        <Form noValidate validated={validated} onSubmit={(e) => HandleClick(e)}>
           <InputGroup className="mb-3">
             <Form.Control
               placeholder="Email"
