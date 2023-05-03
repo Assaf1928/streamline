@@ -133,8 +133,7 @@
       display: none !important;
    }
    .navbar {
-      display: flex;
-      flex-direction: column;
+      display: none !important;
    }
    .welcome {
       display: none !important;

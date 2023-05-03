@@ -4,7 +4,8 @@ import { Component } from 'react';
 import { Link, Outlet } from "react-router-dom";
 import { Col, Nav, Row, Tab } from 'react-bootstrap';
 import StreamLineLogo from '../images/stream_line.png';
-import { AiFillHome, AiFillFileAdd } from 'react-icons/ai'
+import { AiFillHome, AiFillFileAdd} from 'react-icons/ai'
+import {BiBarcodeReader} from 'react-icons/bi'
 import { FaHome, FaFlask, FaMapMarkerAlt} from 'react-icons/fa'
 import { GiConsoleController, GiDrippingTube } from 'react-icons/all'
 import axios from 'axios';
@@ -42,7 +43,7 @@ class Dashbaord extends Component {
         id: 2,
         name: "Create QR",
         route: "/dashboard/qr-creation",
-        icon: "" //<BsQrCodeScan/>
+         icon: <BiBarcodeReader/>
 
       },
       {
@@ -52,13 +53,6 @@ class Dashbaord extends Component {
         icon: <FaFlask />
 
         // <AiFillFileAdd /> this icon should be on add report label
-
-      },
-      {
-        id: 4,
-        name: "Users",
-        route: "/dashboard/users",
-        icon: ""
 
       },
       {

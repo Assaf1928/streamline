@@ -7,6 +7,15 @@
   top: 5vw
 
 }
+
+.stream_line_logo_blue {
+  max-width: 40vw;
+  max-height: 40vw;
+  position:  absolute;
+  top: 30px;
+  left: 30vw;
+  display: none;
+}
 .input_containers {
   background-color:#006e8c;
   position: relative;
@@ -38,7 +47,7 @@
   box-shadow: none !important;
 }
 .col_inputs {
-  margin-top: 300px !important;
+  margin-top: 200px !important;
   margin: 0 auto;
 }
 .welcome{
@@ -68,6 +77,7 @@
   max-width: 70vw;
   margin: 0 auto
 }
+.stream_line_logo_blue { display: block;}
 .input_containers {
 }
 

@@ -1,6 +1,8 @@
 import React from 'react'
 import './Home.css';
 import StreamLineLogo from '../../images/stream_line.png';
+import StreamLineLogoBlue from '../../images/stream_line_blue.png';
+
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { Button, Row, Col, Container } from 'react-bootstrap'
@@ -19,7 +21,6 @@ function Home() {
 
   const HandleClick = (event) => {
     event.preventDefault();
-    alert('hi')
     if (register) {
       const form = event.target;
       if (!form.checkValidity()) {
@@ -49,13 +50,13 @@ function Home() {
     }
     else {
       axios.post(`${process.env.REACT_APP_BACKEND_ROUTE}/login`, { email: email.data, password: password }).then((res) => {
-        alert('Login Successful!')        
+        alert('Login Successful!')
         localStorage.setItem('user', JSON.stringify(res.data));
         window.location.href = "/dashboard/home"
 
       }).catch((e) => {
         setErrorMessage('Incorrect username or password')
-        alert('Wrong Password Or Email ! Try Again')
+        // alert('Wrong Password Or Email ! Try Again')
         localStorage.removeItem('user')
       });
     }
@@ -66,7 +67,9 @@ function Home() {
       <div className='input_containers'>
         <img src={StreamLineLogo} className="stream_line_logo" /></div>
       <div className='col_inputs'>
-        <div className='text_header'>{register ? 'Register' : 'Login'}</div>
+        <div className='text_header'>{register ? 'Register' : 'Login'}
+        <img src={StreamLineLogoBlue} className="stream_line_logo_blue" />
+        </div>
         <Form noValidate validated={validated} onSubmit={(e) => HandleClick(e)}>
           <InputGroup className="mb-3">
             <Form.Control
@@ -122,7 +125,7 @@ function Home() {
             <div> Welcome To Streamline! Don't have a user? <span className='cursor' onClick={() => { setRegister(true); setEmail({ data: '', error: '' }); setPassword(null); }}> Register</span> Here</div>
           </InputGroup>
           <InputGroup className="mb-3">
-            <Button type='submit' onSubmit={(e) => HandleClick(e)} className='btn_login'> {register ? 'Register' : 'Login'}</Button>
+            <Button type='submit' onSubmit={() => HandleClick()} className='btn_login'> {register ? 'Register' : 'Login'}</Button>
           </InputGroup>
         </Form>
       </div>
