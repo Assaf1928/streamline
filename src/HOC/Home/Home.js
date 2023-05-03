@@ -19,6 +19,7 @@ function Home() {
 
   const HandleClick = (event) => {
     event.preventDefault();
+    alert('hi')
     if (register) {
       const form = event.target;
       if (!form.checkValidity()) {
