@@ -17,9 +17,17 @@ import Locations from './Locations/Locations'
 import HomePage from './HomePage/HomePage';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import Scan from './Scan/Scan'
+import Example from './Graph/Graph';
+
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import GraphT1 from './Graph/GraphT1';
 
-
+const myData = [
+    { country: 'France', population: 67000000 },
+    { country: 'Spain', population: 47000000 },
+    { country: 'Germany', population: 83000000 },
+    { country: 'Italy', population: 60000000 },
+];
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <Router>
@@ -29,7 +37,7 @@ root.render(
             <Route exact path="/samples/:id/tubes" element={<Tubes />} />
             <Route path="create-sample/:id" element={<CreateSample />} />
             <Route path="/dashboard" element={<Dashboard />}>
-                <Route path='home' element={<HomePage/>} />
+                <Route path='home' element={<HomePage />} />
                 <Route path="qr-creation" element={<CreateQR />}></Route>
                 <Route path="overview" element={<Overview />}></Route>
                 <Route exact path="samples" element={<Samples />}></Route>
@@ -37,6 +45,8 @@ root.render(
                 <Route path="create-sample/:id" element={<CreateSample />} />
                 <Route exact path='tube/types' element={<TubesTypes />} />
                 <Route exact path='locations' element={<Locations />} />
+                <Route exact path='g' element={<Example />} />
+                <Route exact path='h' element={<GraphT1 />} />
             </Route>
             <Route exact path='/SampleDetails' element={< SampleDetails />}></Route>
             <Route exact path='/SampleQR' element={< SampleQR />}></Route>
