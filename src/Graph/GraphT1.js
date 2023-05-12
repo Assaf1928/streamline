@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-
+import  moment  from "moment";
 function getRandomColor() {
     const letters = '0123456789ABCDEF';
     let color = '#';
@@ -13,36 +13,58 @@ function getRandomColor() {
 export default function GraphT1(props) {
     const [data, setData] = useState([])
     const [locations, setLocations] = useState(new Set())
-
+console.log(props)
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_BACKEND_ROUTE}/graph_t1`)
-            .then((response) => response.json())
-            .then((tubes) => {
-                console.log(tubes);
-                const l = new Set()
-                const newArray = tubes.map(obj => {
-                    const { time } = obj.sampleId;
-                    const { name } = obj.sampleId.location
+    
+            console.log('PROPS',props)
 
-                    l.add(name)
-
-                    return {
-                        name: time,
-                        [name]: obj.value
-                    };
+                let tubes = props.graphData
+                let sortedTubesByDate =  tubes.sort((a,b) => new moment(a.sampleId.time).format('YYYYMMDD') - new moment(b.sampleId.time).format('YYYYMMDD'))
+                let datesArr = []
+                const newArray = sortedTubesByDate.map(obj => {
+                if(obj.type == props.type.id) {
+                    if(obj && obj.sampleId && obj.sampleId.time) {
+                        console.log(obj.sampleId.time)
+                    let date = moment(obj.sampleId.time).format('DD/MM/YYYY')
+                    console.log(date)
+                    if(date) {
+                let datesArrObj = datesArr.find(d=> d.date === date)
+                if(!datesArrObj) {
+                    let arr = [obj.value]
+                    datesArr.push({
+                        date,
+                        arr
+                    })
+                } else {
+                    datesArrObj.arr.push(obj.value)
+                }
+            }
+                }
+            }
                 });
-                setData(newArray)
-                setLocations(l)
-                console.log(newArray);
-            })
-            .catch((error) => {
-                console.error(error);
-            })
-    }, []);
-    console.log("locations", Array.from(locations));
-    console.log("locations set", locations);
 
-    return <ResponsiveContainer width="100%" height="50%">
+                let data =[]
+                datesArr.forEach((d) =>{  
+                    if(d.arr) {
+                        let sum = 0
+                        
+                    d.arr.forEach(v => {
+                        
+                        sum = sum + v
+                    }) 
+                    let average = sum / d.arr.length + 1  
+                    data.push({name: d.date, [props.type.name] : average})
+                }
+                
+
+                })
+                console.log(data)
+                setData(data)
+            },[])
+ 
+
+
+    return <div>
         <LineChart
             width={500}
             height={300}
@@ -54,13 +76,11 @@ export default function GraphT1(props) {
                 bottom: 5,
             }}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" />
-            <YAxis />
+            <XAxis dataKey="name" />
+            <YAxis dataKey={props.type.name} />
             <Tooltip />
             <Legend />
-            {Array.from(locations).map((l) => {
-                return <Line type="monotone" dataKey={l} stroke={getRandomColor()} />
-            })}
+            <Line type="monotone" dataKey={props.type.name} stroke={getRandomColor()}/>
         </LineChart>
-    </ResponsiveContainer>
+    </div>
 }

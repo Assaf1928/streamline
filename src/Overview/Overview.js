@@ -4,7 +4,7 @@ import { Chart } from "react-google-charts";
 import {Form, Button} from 'react-bootstrap';
 import './Overview.css'
 import axios from 'axios';
-
+import GraphT1 from '../Graph/GraphT1';
 
 class Overview extends Component {
     constructor(props) {
@@ -20,6 +20,7 @@ class Overview extends Component {
         tubeTypes: [],
         toDate: null,
         fromDate: null,
+        graphData: [],
         tubeTypeId: 0,
         data: [
 
@@ -56,6 +57,11 @@ console.log('im here')
     async componentDidMount() {
     await  axios.get(`${process.env.REACT_APP_BACKEND_ROUTE}/tubes/types`).then((res) => {
         this.setState({tubeTypes: res.data.res})
+    })
+
+    await axios.get(`${process.env.REACT_APP_BACKEND_ROUTE}/graph_t1`).then((res) => {
+      console.log('DATA GRAPH',res.data)
+      this.setState({graphData: res.data})
     })
   
     await axios.get(`${process.env.REACT_APP_BACKEND_ROUTE}/locations`).then((res) => {
@@ -132,6 +138,7 @@ console.log('im here')
 
       let locationSelect = "";
       let typeSelect = "";
+      let graphs = ""
       if(this.state.locations && this.state.locations.length > 0) {
         locationSelect =  <Form.Select className='select' name="locationId" value={this.state.locationId} onChange={(event) =>  this.handleSpotChange(event)}>
       <option value="0"> None</option>
@@ -152,9 +159,16 @@ if(this.state.tubeTypes && this.state.tubeTypes.length > 0) {
   </Form.Select>
 }
 
+  if(this.state.tubeTypes && this.state.graphData && this.state.graphData.length > 0)
+  {
+    
+  graphs = this.state.tubeTypes.map((ty) => <div className='graph_item'><GraphT1 graphData={this.state.graphData} type={ty}/></div>) 
+    
+  }
+
       return (
-        <div>
-          <div>
+        <div className='ct_graphs'>
+          {/* <div>
         {typeSelect}
         </div><div>
          {locationSelect}
@@ -175,7 +189,9 @@ if(this.state.tubeTypes && this.state.tubeTypes.length > 0) {
         height="400px"
         data={this.state.data}
         options={this.state.options}
-      /></div>
+      /></div> */}
+  {graphs}
+ 
       </div>
       );
     }
