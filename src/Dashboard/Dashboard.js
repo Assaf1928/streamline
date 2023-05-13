@@ -4,9 +4,9 @@ import { Component } from 'react';
 import { Link, Outlet } from "react-router-dom";
 import { Col, Nav, Row, Tab } from 'react-bootstrap';
 import StreamLineLogo from '../images/stream_line.png';
-import { AiFillHome, AiFillFileAdd} from 'react-icons/ai'
-import {BiBarcodeReader} from 'react-icons/bi'
-import { FaHome, FaFlask, FaMapMarkerAlt} from 'react-icons/fa'
+import { AiFillHome, AiFillFileAdd } from 'react-icons/ai'
+import { BiBarcodeReader } from 'react-icons/bi'
+import { FaHome, FaFlask, FaMapMarkerAlt } from 'react-icons/fa'
 import { GiConsoleController, GiDrippingTube } from 'react-icons/all'
 import axios from 'axios';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
@@ -43,7 +43,7 @@ class Dashbaord extends Component {
         id: 2,
         name: "Create QR",
         route: "/dashboard/qr-creation",
-         icon: <BiBarcodeReader/>
+        icon: <BiBarcodeReader />
 
       },
       {
@@ -68,7 +68,14 @@ class Dashbaord extends Component {
         route: '/dashboard/tube/types',
         icon: <AiFillFileAdd />
         // <GiDrippingTube />
-      }]
+      },
+      {
+        id: 7,
+        name: "Sensor",
+        route: '/dashboard/sensor',
+        icon: null
+      }
+      ]
     };
   }
 
@@ -140,7 +147,7 @@ class Dashbaord extends Component {
               <img src={StreamLineLogo} className="dashboard_logo" />
             </div>
             {this.state.items.map((navitem) => (
-              <Link  className='nostyle' to={navitem.route}>
+              <Link className='nostyle' to={navitem.route}>
                 <div className='tab_ct'><div className='icon_ct'>{navitem.icon}</div>
                   <div className={this.state.selectedItemId == navitem.id ? 'tab_route selected' : 'tab_route'}
                     onClick={() => this.handleChange(navitem.id)}>

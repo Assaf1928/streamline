@@ -21,6 +21,7 @@ import Example from './Graph/Graph';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import GraphT1 from './Graph/GraphT1';
+import Sensor from './Sensor/Sensor';
 
 const myData = [
     { country: 'France', population: 67000000 },
@@ -47,6 +48,8 @@ root.render(
                 <Route exact path='locations' element={<Locations />} />
                 <Route exact path='g' element={<Example />} />
                 <Route exact path='h' element={<GraphT1 />} />
+                <Route exact path='sensor' element={<Sensor />} />
+
             </Route>
             <Route exact path='/SampleDetails' element={< SampleDetails />}></Route>
             <Route exact path='/SampleQR' element={< SampleQR />}></Route>
