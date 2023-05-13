@@ -14,23 +14,26 @@ function getRandomColor() {
 export default function GraphT2(props) {
     const [data, setData] = useState([])
     useEffect(() => {
-    console.log(props)
                 setData([])
                 let locations = props.locations
                 let tubes = props.graphData
-         
+                let toDate = moment(props.toDate).format('DD/MM/YYYY')
+                let fromDate = moment(props.fromDate).format('DD/MM/YYYY')
+                console.log(toDate,fromDate)
                 if(props.toDate && props.fromDate && moment(props.fromDate).isBefore(moment(props.toDate))) {
                     let tubesFilteredByDates = []
+
                     tubes.forEach(obj=> {
                         let date = moment(obj.sampleId.time).format('DD/MM/YYYY')
-                        if(moment(date).isSameOrBefore(moment(props.toDate)) && moment(date).isSameOrAfter(moment(props.fromDate))) {
+                        console.log(date)
+                        if(moment(date).isSameOrBefore(moment(toDate)) && 
+                        moment(date).isSameOrAfter(moment(fromDate))) {
                             tubesFilteredByDates.push(obj)
                         }
                     })
                     tubes = tubesFilteredByDates
             }
                 let sortedTubesByDate =  tubes.sort((a,b) => new moment(a.sampleId.time).format('YYYYMMDD') - new moment(b.sampleId.time).format('YYYYMMDD'))
-                console.log('sorted',sortedTubesByDate)
 
                 let datesArr = []
                 const newArray = sortedTubesByDate.map(obj => {
@@ -40,7 +43,6 @@ export default function GraphT2(props) {
                     if(date) {
                 let datesArrObj = datesArr.find(d=> d.date === date)
                 if(!datesArrObj) {
-                    console.log(date, obj)
                     let arr = [{value: obj.value, location: obj.sampleId.location}]
                     datesArr.push({
                         date,
@@ -55,7 +57,6 @@ export default function GraphT2(props) {
                 });
 
                 let data =[]
-                console.log(datesArr, 'graph2')
                 datesArr.forEach((d) =>{  
                     let objToAdd = {
                         name: d.date

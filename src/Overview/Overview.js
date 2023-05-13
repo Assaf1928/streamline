@@ -192,7 +192,7 @@ if(this.state.tubeTypes && this.state.tubeTypes.length > 0) {
   <div style={{width: '100%'}}></div>
   <div style={{display: 'flex', flexDirection: 'column'}}>
   <div style={{width: '50%', margin: '0 auto'}}>  <div>{typeSelect}</div> 
-  <div><Form.Control onChange={(e) => this.changeFromDate(e)} value={this.state.fromDate} type="date"/></div>
+  <div><Form.Control  onChange={(e) => this.changeFromDate(e)} value={this.state.fromDate} type="date"/></div>
   <div><Form.Control onChange={(e) => this.changeToDate(e)} value={this.state.toDate}  type="date"/></div>
   </div>
   <div style={{margin: '0 auto', width: '100%'}}>{locationsGraph}</div>
