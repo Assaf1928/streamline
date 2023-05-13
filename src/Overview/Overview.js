@@ -5,6 +5,7 @@ import {Form, Button} from 'react-bootstrap';
 import './Overview.css'
 import axios from 'axios';
 import GraphT1 from '../Graph/GraphT1';
+import GraphT2 from '../Graph/GraphT2';
 
 class Overview extends Component {
     constructor(props) {
@@ -34,12 +35,9 @@ class Overview extends Component {
     }
   
    async orginaizeData() {
-console.log(this.state.locationId)
-console.log(this.state.tubeTypeId)
     if(this.state.locationId == 0 || this.state.tubeTypeId == 0 || this.state.toDate == null || this.state.fromDate == null) {
       return
     }
-console.log('im here')
       let newArray = [];
       newArray.push(["Date","Value"])
       var startFrom = new Date();
@@ -47,7 +45,6 @@ console.log('im here')
         res.data.forEach(e => {
           newArray.push([e.date,e.value])
         })
-        console.log('RESULT')
       
         this.setState({data: newArray})
         
@@ -60,7 +57,6 @@ console.log('im here')
     })
 
     await axios.get(`${process.env.REACT_APP_BACKEND_ROUTE}/graph_t1`).then((res) => {
-      console.log('DATA GRAPH',res.data)
       this.setState({graphData: res.data})
     })
   
@@ -109,7 +105,7 @@ console.log('im here')
       resolve()
 
     }).then(async () => {
-      await this.orginaizeData()
+   //   await this.orginaizeData()
     })
     } 
   }
@@ -121,7 +117,7 @@ console.log('im here')
       resolve()
 
     }).then(async () => {
-      await this.orginaizeData()
+    //  await this.orginaizeData()
     })
   }
     } 
@@ -165,6 +161,8 @@ if(this.state.tubeTypes && this.state.tubeTypes.length > 0) {
   graphs = this.state.tubeTypes.map((ty) => <div className='graph_item'><GraphT1 graphData={this.state.graphData} type={ty}/></div>) 
     
   }
+ let locationsGraph = this.state.graphData.length > 0 && this.state.locations.length > 0 ? 
+ <GraphT2 locations={this.state.locations} graphData={this.state.graphData}  fromDate={this.state.fromDate} toDate={this.state.toDate} tubeType={this.state.tubeTypeId} /> : ''
 
       return (
         <div className='ct_graphs'>
@@ -191,7 +189,14 @@ if(this.state.tubeTypes && this.state.tubeTypes.length > 0) {
         options={this.state.options}
       /></div> */}
   {graphs}
- 
+  <div style={{width: '100%'}}></div>
+  <div style={{display: 'flex', flexDirection: 'column'}}>
+  <div style={{width: '50%', margin: '0 auto'}}>  <div>{typeSelect}</div> 
+  <div><Form.Control onChange={(e) => this.changeFromDate(e)} value={this.state.fromDate} type="date"/></div>
+  <div><Form.Control onChange={(e) => this.changeToDate(e)} value={this.state.toDate}  type="date"/></div>
+  </div>
+  <div style={{margin: '0 auto', width: '100%'}}>{locationsGraph}</div>
+  </div>
       </div>
       );
     }

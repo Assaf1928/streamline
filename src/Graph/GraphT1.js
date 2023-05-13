@@ -13,10 +13,8 @@ function getRandomColor() {
 export default function GraphT1(props) {
     const [data, setData] = useState([])
     const [locations, setLocations] = useState(new Set())
-console.log(props)
     useEffect(() => {
     
-            console.log('PROPS',props)
 
                 let tubes = props.graphData
                 let sortedTubesByDate =  tubes.sort((a,b) => new moment(a.sampleId.time).format('YYYYMMDD') - new moment(b.sampleId.time).format('YYYYMMDD'))
@@ -24,9 +22,7 @@ console.log(props)
                 const newArray = sortedTubesByDate.map(obj => {
                 if(obj.type == props.type.id) {
                     if(obj && obj.sampleId && obj.sampleId.time) {
-                        console.log(obj.sampleId.time)
                     let date = moment(obj.sampleId.time).format('DD/MM/YYYY')
-                    console.log(date)
                     if(date) {
                 let datesArrObj = datesArr.find(d=> d.date === date)
                 if(!datesArrObj) {
@@ -52,13 +48,12 @@ console.log(props)
                         
                         sum = sum + v
                     }) 
-                    let average = sum / d.arr.length + 1  
+                    let average = sum / (d.arr.length + 1)  
                     data.push({name: d.date, [props.type.name] : average})
                 }
                 
 
                 })
-                console.log(data)
                 setData(data)
             },[])
  
