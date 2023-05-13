@@ -1,0 +1,31 @@
+.select {
+    max-width: 300px;
+    margin: 0 auto;
+    margin-top: 100px;
+}
+.date_containers {
+    margin: 0 auto;
+    text-align: center;
+    width: 300px;
+    display: flex;
+    flex-direction: row;
+}
+
+.graph_item {
+    width: 50%
+  }
+  
+  .ct_graphs {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .ct_graphs > div {
+    flex: 50%; /* or - flex: 0 50% - or - flex-basis: 50% - */
+    /*demo*/
+    margin-bottom: 10px;
+  }
+
+.date_containers div {
+margin: 10px
+}
